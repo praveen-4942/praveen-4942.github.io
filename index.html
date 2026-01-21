@@ -96,7 +96,9 @@
             flex-wrap: wrap;
             animation: fadeInUp 1s ease 0.5s both;
         }
+        
 
+        
         .contact-links a {
             color: white;
             text-decoration: none;
@@ -224,6 +226,7 @@
             font-weight: 500;
         }
 
+        
         /* Projects */
         .projects-grid {
             display: grid;
@@ -434,6 +437,43 @@
             opacity: 0.9;
             margin: 5px 0;
         }
+        
+        /* ===== HERO PHOTO LAYOUT (ADDED) ===== */
+.hero-layout {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-photo {
+    flex-shrink: 0;
+}
+
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid rgba(255,255,255,0.65);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+/* ===== MOBILE SAFE ===== */
+@media (max-width: 768px) {
+    .hero-layout {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .hero-photo {
+        margin-bottom: 25px;
+    }
+}
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -465,25 +505,89 @@
             .stat-number {
                 font-size: 2.5em;
             }
+
+            
         }
     </style>
 </head>
 <body>
+    
     <header>
-        <div class="container">
-            <div class="hero">
-                <h1>Praveenkumar G</h1>
-                <p class="subtitle">Electronics & Communication Engineering | Software Developer | ML Engineer<br>Embedded Systems Specialist | IoT Innovator | Cybersecurity Enthusiast</p>
-                <p class="description">Final-year ECE student at MIT Anna University with expertise spanning software development, machine learning, embedded systems, and real-time hardware applications. Passionate about building intelligent systems that bridge hardware and software.</p>
-                <div class="contact-links">
-                    <a href="mailto:gpraveenkumar2005@gmail.com">📧 Email</a>
-                    <a href="https://linkedin.com/in/praveen4942" target="_blank">💼 LinkedIn</a>
-                    <a href="https://github.com/praveen-4942" target="_blank">💻 GitHub</a>
-                    <a href="tel:+919600404942">📞 +91 96004 04942</a>
-                </div>
+    <div class="container">
+        <div class="hero">
+            
+
+            <h1>Praveenkumar G</h1>
+
+            <p class="subtitle">
+               Final-Year Electronics & Communication Engineering Undergraduate
+
+            </p>
+
+            <p class="description">
+            Final-year Electronics and Communication Engineering undergraduate at
+            MIT, Anna University, Chromepet, Chennai. Hands-on experience in IoT,
+            embedded systems, digital and analog communication, cybersecurity,
+            and DevOps. Currently an intern at Baton-Ubixi Systems, working on
+            real-world engineering and software solutions.
+            </p>
+
+
+            <div class="contact-links">
+
+                <!-- EMAIL -->
+                <a href="mailto:gpraveenkumar2005@gmail.com" title="Email">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>
+                    </svg>
+                    Email
+                </a>
+
+                <!-- LINKEDIN -->
+                <a href="https://linkedin.com/in/praveen4942" target="_blank" title="LinkedIn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05a4.2 4.2 0 0 1 3.8-2.1c4.1 0 4.9 2.7 4.9 6.2V21h-4v-5.2c0-1.2 0-2.7-1.7-2.7s-2 1.3-2 2.6V21H9z"/>
+                    </svg>
+                    LinkedIn
+                </a>
+
+                <!-- GITHUB -->
+                <a href="https://github.com/praveen-4942" target="_blank" title="GitHub">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.6-4-1.6-.6-1.5-1.4-1.9-1.4-1.9-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 3 1.3 3.7 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.4-5.5-6.1 0-1.4.5-2.6 1.2-3.5-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.6 1.2a12.4 12.4 0 0 1 6.6 0C17 4.4 18 4.7 18 4.7c.6 1.6.2 2.8.1 3.1.8.9 1.2 2.1 1.2 3.5 0 4.7-2.8 5.8-5.5 6.1.4.3.8 1 .8 2.1v3.1c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/>
+                    </svg>
+                    GitHub
+                </a>
+
+                <!-- INSTAGRAM -->
+                <a href="https://www.instagram.com/6926.praveen" target="_blank" title="Instagram">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5.3A4.7 4.7 0 1 0 16.7 12 4.7 4.7 0 0 0 12 7.3zm0 7.7A3 3 0 1 1 15 12a3 3 0 0 1-3 3zm4.8-8.8a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1z"/>
+                    </svg>
+                    Instagram
+                </a>
+
+                <!-- PHONE -->
+                <a href="tel:+919600404942" title="Phone">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.2 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V21a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.6a1 1 0 0 1 1 1 11.4 11.4 0 0 0 .6 3.6 1 1 0 0 1-.2 1z"/>
+                    </svg>
+                    Call
+                </a>
+
             </div>
+            
+
+            <p style="margin-top:18px;font-size:0.95em;opacity:0.85;">
+                📍 Chennai, India.
+            </p>
         </div>
-    </header>
+    </div>
+</header>
+
+
+               
+
 
     <nav>
         <div class="container">
@@ -492,6 +596,8 @@
             <a href="#projects">Projects</a>
             <a href="#skills">Skills</a>
             <a href="#achievements">Achievements</a>
+            <a href="#achievements">Achievements</a>
+            <a href="#internships">Internships</a>
         </div>
     </nav>
 
@@ -500,12 +606,16 @@
             <h2>About Me</h2>
             <div class="education-item" style="border-left: none; border-top: 5px solid var(--primary);">
                 <p style="text-align: center; color: var(--gray); font-size: 1.15em; max-width: 900px; margin: 0 auto; line-height: 1.8;">
-                    I'm a versatile engineering student with a unique blend of expertise in both software and hardware domains. My passion lies in creating intelligent systems that solve real-world problems—from deploying deep learning models on Raspberry Pi for agricultural monitoring to designing automated IoT systems for smart homes. I combine strong programming skills with hands-on embedded systems experience, making me equally comfortable with TensorFlow and Arduino, Python and Verilog, cloud platforms and circuit design.
+                    I am an ECE undergraduate with strong foundations in embedded systems,
+                    AI/ML, and cybersecurity. I enjoy building intelligent hardware–software
+                    systems, from deploying deep learning models on Raspberry Pi to designing
+                    automated IoT solutions for real-world applications.
+
                 </p>
             </div>
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">8.72</div>
+                    <div class="stat-number">8.73</div>
                     <div class="stat-label">CGPA / 10.0</div>
                 </div>
                 <div class="stat-card">
@@ -528,7 +638,7 @@
                 <h3>Madras Institute of Technology, Anna University</h3>
                 <div class="date">2022 - 2026</div>
                 <p><strong>Bachelor of Engineering in Electronics and Communication Engineering</strong></p>
-                <p style="color: var(--primary); font-weight: bold; font-size: 1.1em;">CGPA: 8.72 / 10.0</p>
+                <p style="color: var(--primary); font-weight: bold; font-size: 1.1em;">CGPA: 8.73 / 10.0</p>
                 <p style="margin-top: 10px;">Comprehensive coursework in embedded systems, VLSI, digital system design, signal processing, and communication systems.</p>
             </div>
             <div class="education-item">
@@ -544,76 +654,157 @@
         <div class="container">
             <h2>Projects & Publications</h2>
             <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Smart Agricultural Monitoring System</h3>
-                    <div class="date">April 2025 • Published in IJERT</div>
-                    <p>Designed and deployed a deep learning-based system using image processing to detect plant diseases with 92% accuracy. Integrated real-time SMS alerts to farmers using Twilio API. Successfully published in IJERT (Vol. 14 Issue 05, ISSN: 2278-0181).</p>
-                    <p><strong>Impact:</strong> Enables early disease detection for farmers, potentially saving crops and improving yield.</p>
-                    <div class="tools">
-                        <span class="tool-tag">Raspberry Pi 4</span>
-                        <span class="tool-tag">Python</span>
-                        <span class="tool-tag">TensorFlow</span>
-                        <span class="tool-tag">OpenCV</span>
-                        <span class="tool-tag">Twilio API</span>
-                    </div>
-                </div>
 
-                <div class="project-card">
-                    <h3>Cyber Threat Prediction System</h3>
-                    <div class="date">February 2025</div>
-                    <p>Designed and implemented a unified deep learning model to detect DDoS attacks, malware, and system failures using multi-source log analysis. Achieved 91.7% validation accuracy using dropout regularization and Adam optimizer with gradient clipping.</p>
-                    <p><strong>Impact:</strong> Proactive threat detection for enhanced network security.</p>
-                    <div class="tools">
-                        <span class="tool-tag">Python</span>
-                        <span class="tool-tag">TensorFlow</span>
-                        <span class="tool-tag">Keras</span>
-                        <span class="tool-tag">Scikit-learn</span>
-                        <span class="tool-tag">Pandas</span>
-                        <span class="tool-tag">NumPy</span>
-                    </div>
-                </div>
 
-                <div class="project-card">
-                    <h3>Smart Home Automation System</h3>
-                    <div class="date">February 2025</div>
-                    <p>Developed a comprehensive home automation system enabling smartphone control of electrical appliances via Bluetooth. Implemented relay control circuitry with Arduino UNO and HC-05 module for real-time wireless switching and monitoring.</p>
-                    <p><strong>Impact:</strong> Affordable smart home solution for energy management and convenience.</p>
-                    <div class="tools">
-                        <span class="tool-tag">Arduino UNO</span>
-                        <span class="tool-tag">Embedded C</span>
-                        <span class="tool-tag">Bluetooth HC-05</span>
-                        <span class="tool-tag">Relay Module</span>
-                        <span class="tool-tag">Android App</span>
-                    </div>
-                </div>
+    <!-- ================= 2024 ================= -->
+    <div class="project-card">
+        <h3>Fingerprint-Based Identification System</h3>
+        <div class="date">November 2025</div>
+        <p>
+            Developed a customized CNN-based model to identify
+            <strong>blood group, gender, and fingerprint type</strong>
+            from fingerprint images.
+        </p>
+        <p><strong>Approach:</strong> Image preprocessing, feature extraction, CNN classification.</p>
+        <div class="tools">
+            <span class="tool-tag">Python</span>
+            <span class="tool-tag">TensorFlow</span>
+            <span class="tool-tag">CNN</span>
+            <span class="tool-tag">Computer Vision</span>
+        </div>
+    </div>
 
-                <div class="project-card">
-                    <h3>DesiltBot – Automated Silt Removal System</h3>
-                    <div class="date">March 2024</div>
-                    <p>Developed an intelligent robotic system using Raspberry Pi and computer vision to identify, weigh, and clear silt autonomously. Integrated load cell sensors and GPS tracking for real-time material handling efficiency and cloud-based data logging.</p>
-                    <p><strong>Impact:</strong> Automation improves efficiency in water body maintenance and environmental conservation.</p>
-                    <div class="tools">
-                        <span class="tool-tag">Raspberry Pi</span>
-                        <span class="tool-tag">Python</span>
-                        <span class="tool-tag">OpenCV</span>
-                        <span class="tool-tag">Load Cell</span>
-                        <span class="tool-tag">GPS Module</span>
-                        <span class="tool-tag">Cloud Integration</span>
-                    </div>
-                </div>
+    <!-- ================= 2025 ================= -->
+    <div class="project-card">
+        <h3>Smart Agricultural Monitoring System</h3>
+        <div class="date">April 2025 • IJERT Publication</div>
+        <p>
+            Designed and deployed a deep learning–based plant disease detection system
+            achieving <strong>92% accuracy</strong>. Integrated real-time SMS alerts
+            to farmers using Twilio API and deployed on Raspberry Pi.
+        </p>
+        <p><strong>Impact:</strong> Early disease detection improves crop yield and reduces losses.</p>
+        <div class="tools">
+            <span class="tool-tag">Raspberry Pi 4</span>
+            <span class="tool-tag">Python</span>
+            <span class="tool-tag">TensorFlow</span>
+            <span class="tool-tag">OpenCV</span>
+            <span class="tool-tag">Twilio API</span>
+        </div>
+    </div>
 
-                <div class="project-card">
-                    <h3>Personal Portfolio Website</h3>
-                    <div class="date">March 2024</div>
-                    <p>Designed and deployed a fully responsive personal portfolio website with modern design principles, showcasing technical skills, projects, and professional information. Implemented contact forms and smooth animations for enhanced user experience.</p>
-                    <div class="tools">
-                        <span class="tool-tag">HTML</span>
-                        <span class="tool-tag">CSS</span>
-                        <span class="tool-tag">JavaScript</span>
-                        <span class="tool-tag">GitHub Pages</span>
-                    </div>
-                </div>
-            </div>
+    <div class="project-card">
+        <h3>Cyber Threat Prediction System</h3>
+        <div class="date">February 2025</div>
+        <p>
+            Designed and implemented a unified deep learning model to detect
+            <strong>DDoS attacks, malware, and system failures</strong>
+            using multi-source system and network logs.
+        </p>
+        <p><strong>Performance:</strong> Achieved 91.7% validation accuracy.</p>
+        <div class="tools">
+            <span class="tool-tag">Python</span>
+            <span class="tool-tag">TensorFlow</span>
+            <span class="tool-tag">Keras</span>
+            <span class="tool-tag">Scikit-learn</span>
+            <span class="tool-tag">Pandas</span>
+            <span class="tool-tag">NumPy</span>
+        </div>
+    </div>
+
+    
+
+    
+
+    <div class="project-card">
+        <h3>DesiltBot – Automated Silt Removal System</h3>
+        <div class="date">March 2024</div>
+        <p>
+            Built an intelligent robotic system using Raspberry Pi and computer vision
+            to identify, weigh, and remove silt autonomously.
+        </p>
+        <p><strong>Features:</strong> Load cell integration, GPS tracking, cloud-based logging.</p>
+        <div class="tools">
+            <span class="tool-tag">Raspberry Pi</span>
+            <span class="tool-tag">Python</span>
+            <span class="tool-tag">OpenCV</span>
+            <span class="tool-tag">Load Cell</span>
+            <span class="tool-tag">GPS Module</span>
+            <span class="tool-tag">Cloud Integration</span>
+        </div>
+    </div>
+
+    <div class="project-card">
+        <h3>Personal Portfolio Website</h3>
+        <div class="date">March 2024</div>
+        <p>
+            Designed and deployed a fully responsive personal portfolio website
+            showcasing projects, skills, and professional achievements.
+        </p>
+        <p><strong>Features:</strong> Modern UI, animations, GitHub Pages deployment.</p>
+        <div class="tools">
+            <span class="tool-tag">HTML</span>
+            <span class="tool-tag">CSS</span>
+            <span class="tool-tag">JavaScript</span>
+            <span class="tool-tag">GitHub Pages</span>
+        </div>
+    </div>
+
+    <div class="project-card">
+        <h3>Library Management System</h3>
+        <div class="date">January 2024</div>
+        <p>
+            Developed a database-driven application to manage book and student records
+            using <strong>CRUD operations</strong>.
+        </p>
+        <p><strong>Features:</strong> Add, view, update, and delete records.</p>
+        <div class="tools">
+            <span class="tool-tag">Python</span>
+            <span class="tool-tag">SQL</span>
+            <span class="tool-tag">OOP</span>
+        </div>
+    </div>
+
+   
+
+    <div class="project-card">
+        <h3>Smart Home Automation System</h3>
+        <div class="date">March 2023</div>
+        <p>
+            Developed a home automation system enabling smartphone-based control
+            of electrical appliances via Bluetooth communication.
+        </p>
+        <p><strong>Impact:</strong> Low-cost and efficient solution for smart energy management.</p>
+        <div class="tools">
+            <span class="tool-tag">Arduino UNO</span>
+            <span class="tool-tag">Embedded C</span>
+            <span class="tool-tag">Bluetooth HC-05</span>
+            <span class="tool-tag">Relay Module</span>
+            <span class="tool-tag">Android App</span>
+        </div>
+    </div>
+
+     <!-- ================= 2023 ================= -->
+    <div class="project-card">
+        <h3>Variable Voltage Regulator (0–32V)</h3>
+        <div class="date">February 2023</div>
+        <p>
+            Designed and implemented a regulated power supply providing
+            variable output voltage from <strong>0 to 32V</strong>.
+        </p>
+        <p><strong>Components:</strong> Regulator ICs, transformer, rectifier, filter circuits.</p>
+        <div class="tools">
+            <span class="tool-tag">Analog Electronics</span>
+            <span class="tool-tag">Voltage Regulator IC</span>
+            <span class="tool-tag">Power Supply Design</span>
+        </div>
+    </div>
+
+</div>
+
+
+
+            
         </div>
     </section>
 
@@ -623,7 +814,7 @@
             <div class="skills-container">
                 <div class="skill-category">
                     <h3>Programming Languages</h3>
-                    <p>C, Python, Embedded C, Verilog (Basics), SQL, Object-Oriented Programming, Data Structures & Algorithms, HTML/CSS, JavaScript</p>
+                    <p>Java, C, Python, Embedded C, Verilog (Basics), SQL, Object-Oriented Programming, Data Structures & Algorithms, HTML/CSS, JavaScript</p>
                 </div>
 
                 <div class="skill-category">
@@ -655,83 +846,212 @@
     </section>
 
     <section id="achievements">
-        <div class="container">
-            <h2>Certifications & Achievements</h2>
-            <div class="cert-grid">
-                <div class="cert-card">
-                    <div class="cert-icon">🎓</div>
-                    <div class="cert-content">
-                        <strong>NPTEL Certification</strong>
-                        <span>Deep Learning (2024)</span>
-                    </div>
-                </div>
+    <div class="container">
+        <h2>Certifications & Achievements</h2>
 
-                <div class="cert-card">
-                    <div class="cert-icon">🔧</div>
-                    <div class="cert-content">
-                        <strong>Workshop</strong>
-                        <span>Machine Learning in Python: Learn, Build and Deploy (2024)</span>
-                    </div>
-                </div>
+        <div class="cert-grid">
 
-                <div class="cert-card">
-                    <div class="cert-icon">🔒</div>
-                    <div class="cert-content">
-                        <strong>Coursera</strong>
-                        <span>Introduction to Cybersecurity (2023)</span>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">🌐</div>
-                    <div class="cert-content">
-                        <strong>Coursera</strong>
-                        <span>Introduction to IoT and Embedded Systems (2023)</span>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">🐍</div>
-                    <div class="cert-content">
-                        <strong>Coursera</strong>
-                        <span>Python for Data Analytics and NumPy (2023)</span>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">💻</div>
-                    <div class="cert-content">
-                        <strong>Coursera</strong>
-                        <span>Basics of Python (2023)</span>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">🏆</div>
-                    <div class="cert-content">
-                        <strong>HackIT'25 - Finalist</strong>
-                        <span>CEG Anna University (2025)</span>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">📄</div>
-                    <div class="cert-content">
-                        <strong>Paper Presentation</strong>
-                        <span>"Reduction of Flicker Noise" at CST'24 National Conference (2023)</span>
-                    </div>
-                </div>
-
-                <div class="cert-card">
-                    <div class="cert-icon">🏭</div>
-                    <div class="cert-content">
-                        <strong>Industrial Visits</strong>
-                        <span>Bharat Sanchar Nigam Limited (2022), Nestsoft (2024)</span>
-                    </div>
+            <!-- ================= 2025 ================= -->
+            <div class="cert-card">
+                <div class="cert-icon">🎓</div>
+                <div class="cert-content">
+                    <strong>Coursera</strong>
+                    <span>Introduction to Java (2025)</span>
                 </div>
             </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🔐</div>
+                <div class="cert-content">
+                    <strong>Deloitte (Forage)</strong>
+                    <span>Cyber Job Simulation (2025)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🚀</div>
+                <div class="cert-content">
+                    <strong>LetsUpgrade</strong>
+                    <span>Bootcamp – GitHub, HTML, CSS, Python, Excel (2025)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🧠</div>
+                <div class="cert-content">
+                    <strong>Maven Silicon</strong>
+                    <span>Verilog HDL – Hands-on (2025)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🎯</div>
+                <div class="cert-content">
+                    <strong>TCS iON</strong>
+                    <span>Career Edge – Young Professional (2025)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🌐</div>
+                <div class="cert-content">
+                    <strong>Ediglobe Webinar</strong>
+                    <span>Emerging Trends in Finance (2025)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">⚡</div>
+                <div class="cert-content">
+                    <strong>UNSTOP</strong>
+                    <span>Predicathon Hackathon (2025)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🏆</div>
+                <div class="cert-content">
+                    <strong>HackIT’25 – Finalist</strong>
+                    <span>CEG, Anna University (2025)</span>
+                </div>
+            </div>
+
+            <!-- ================= 2024 ================= -->
+            <div class="cert-card">
+                <div class="cert-icon">🎓</div>
+                <div class="cert-content">
+                    <strong>NPTEL</strong>
+                    <span>Deep Learning (2024)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">📊</div>
+                <div class="cert-content">
+                    <strong>IBM</strong>
+                    <span>Python 101 for Data Science (2024)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">💻</div>
+                <div class="cert-content">
+                    <strong>Great Learning</strong>
+                    <span>Web Development, HTML, C++, Python (2024)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🔧</div>
+                <div class="cert-content">
+                    <strong>Workshop</strong>
+                    <span>Machine Learning in Python – Learn, Build & Deploy (2024)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🏆</div>
+                <div class="cert-content">
+                    <strong>Naukri Campus</strong>
+                    <span>Young Turks (2024)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🏭</div>
+                <div class="cert-content">
+                    <strong>Industrial Visit</strong>
+                    <span>Nestsoft (2024)</span>
+                </div>
+            </div>
+
+            <!-- ================= 2023 ================= -->
+            <div class="cert-card">
+                <div class="cert-icon">🔒</div>
+                <div class="cert-content">
+                    <strong>Coursera</strong>
+                    <span>Introduction to Cybersecurity (2023)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🌐</div>
+                <div class="cert-content">
+                    <strong>Coursera</strong>
+                    <span>Introduction to IoT & Embedded Systems (2023)</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🐍</div>
+                <div class="cert-content">
+                    <strong>Coursera</strong>
+                    <span>Python for Data Analytics & NumPy (2023)</span>
+                </div>
+            </div>
+
+            
+
+            <div class="cert-card">
+                <div class="cert-icon">🏭</div>
+                <div class="cert-content">
+                    <strong>KLA Engineering Workshop</strong>
+                    <span>Organized by FFE (2023)</span>
+                </div>
+            </div>
+
+            <!-- ================= 2022 ================= -->
+            <div class="cert-card">
+                <div class="cert-icon">🏭</div>
+                <div class="cert-content">
+                    <strong>Industrial Visit</strong>
+                    <span>Bharat Sanchar Nigam Limited – BSNL (2022)</span>
+                </div>
+            </div>
+
         </div>
-    </section>
+    </div>
+</section>
+
+<section id="publications" style="background:#f1f5f9;">
+    <div class="container">
+        <h2>Publications & Presentations</h2>
+
+        <div class="cert-grid">
+
+            <!-- ================= 2025 ================= -->
+            <div class="cert-card">
+                <div class="cert-icon">📄</div>
+                <div class="cert-content">
+                    <strong>IEEE SISIMPACT 2025</strong>
+                    <span>DDoS Detection in IoT using Deep Learning<br>November 2025</span>
+                </div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">📰</div>
+                <div class="cert-content">
+                    <strong>IJERT Journal</strong>
+                    <span>
+                        Smart Agricultural Monitoring System<br>
+                        ISSN: 2278-0181 • May 2025
+                    </span>
+                </div>
+            </div>
+
+            <!-- ================= 2024 ================= -->
+            <div class="cert-card">
+                <div class="cert-icon">🎤</div>
+                <div class="cert-content">
+                    <strong>National Conference CST’24</strong>
+                    <span>Reduction of Flicker Noise<br>May 2024</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 
     <section style="background: #f1f5f9;">
         <div class="container">
@@ -754,6 +1074,36 @@
             </div>
         </div>
     </section>
+
+    <section id="internships" style="background:#f1f5f9;">
+    <div class="container">
+        <h2>Internships & Training</h2>
+        <div class="skills-container">
+
+            <div class="skill-category">
+                <h3>Web Development Internship</h3>
+                <p>
+                    <strong>Ediglobe</strong> — Online<br>
+                    Duration: 3 Months (2025)<br>
+                    Worked on front-end development using HTML, CSS,
+                    and JavaScript with real-world project exposure.
+                </p>
+            </div>
+
+            <div class="skill-category">
+                <h3>AI / ML Training Program</h3>
+                <p>
+                    <strong>NEOSKILLZ</strong> — Online<br>
+                    Duration: 1 Month (2025)<br>
+                    Hands-on training in machine learning models,
+                    data preprocessing, and model evaluation.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
 
     <footer>
         <div class="container">
