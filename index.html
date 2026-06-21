@@ -19,8 +19,8 @@
 
   /* ============================= TOKENS ============================= */
   :root{
-    --bg-0:#080c14;
-    --bg-1:#0c1220;
+    --bg-0:#05050d;
+    --bg-1:#0a0a18;
     --panel:rgba(17,24,39,0.62);
     --panel-strong:rgba(19,27,46,0.86);
     --border:rgba(94,234,212,0.14);
@@ -31,6 +31,7 @@
     --signal:#5eead4;   /* teal — primary signal */
     --signal-2:#4f9eff; /* sky blue — secondary signal */
     --pulse:#f5b94d;    /* amber — highlight / LED */
+    --nova:#c084fc;     /* nebula violet */
     --radius:18px;
     --font-display:'Space Grotesk', sans-serif;
     --font-body:'Inter', sans-serif;
@@ -55,37 +56,58 @@
 
   :focus-visible{ outline:2px solid var(--signal); outline-offset:3px; border-radius:6px; }
 
-  /* ============================= ANIMATED BACKGROUND SCENE ============================= */
+  /* ============================= GALAXY BACKGROUND SCENE ============================= */
   .bg-scene{
-    position:fixed; inset:0; z-index:-1; overflow:hidden; background:var(--bg-0);
-  }
-  .bg-aurora{ position:absolute; border-radius:50%; filter:blur(90px); opacity:.32; will-change:transform; }
-  .bg-aurora--1{ width:620px; height:620px; background:var(--signal); top:-14%; left:-12%; animation:driftA 28s ease-in-out infinite; }
-  .bg-aurora--2{ width:520px; height:520px; background:var(--pulse); bottom:-18%; right:-8%; animation:driftB 34s ease-in-out infinite; }
-  .bg-aurora--3{ width:420px; height:420px; background:var(--signal-2); top:35%; left:55%; opacity:.18; animation:driftC 30s ease-in-out infinite; }
-  @keyframes driftA{ 0%,100%{ transform:translate(0,0) scale(1); } 33%{ transform:translate(70px,50px) scale(1.12); } 66%{ transform:translate(-30px,80px) scale(.92); } }
-  @keyframes driftB{ 0%,100%{ transform:translate(0,0) scale(1); } 40%{ transform:translate(-60px,-40px) scale(1.08); } 70%{ transform:translate(40px,-70px) scale(.95); } }
-  @keyframes driftC{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-50px,40px) scale(1.15); } }
-
-  .bg-grid{
-    position:absolute; inset:0; opacity:.07;
-    background-image:linear-gradient(rgba(94,234,212,.6) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(94,234,212,.6) 1px, transparent 1px);
-    background-size:46px 46px;
-    mask-image:radial-gradient(circle at 50% 25%, black, transparent 75%);
+    position:fixed; inset:0; z-index:-1; overflow:hidden; background:radial-gradient(ellipse at 50% 0%, #0d0a22 0%, #05050d 55%, #020205 100%);
   }
 
-  .bg-circuit{ position:absolute; inset:0; width:100%; height:100%; }
-  .bg-circuit path{
-    fill:none; stroke:var(--signal); stroke-width:1.1; opacity:.3;
-    stroke-dasharray:6 14; animation:flow 7s linear infinite;
-  }
-  .bg-circuit path.alt{ stroke:var(--signal-2); animation-duration:9s; animation-direction:reverse; }
-  @keyframes flow{ to{ stroke-dashoffset:-220; } }
-  .bg-circuit circle.node{ fill:var(--pulse); animation:nodePulse 3.2s ease-in-out infinite; }
-  @keyframes nodePulse{ 0%,100%{ opacity:.25; r:2; } 50%{ opacity:1; r:3.4; } }
+  /* drifting nebula clouds */
+  .bg-aurora{ position:absolute; border-radius:50%; filter:blur(100px); opacity:.30; will-change:transform; mix-blend-mode:screen; }
+  .bg-aurora--1{ width:640px; height:640px; background:var(--nova); top:-16%; left:-14%; animation:driftA 36s ease-in-out infinite; }
+  .bg-aurora--2{ width:560px; height:560px; background:var(--signal-2); bottom:-20%; right:-10%; animation:driftB 42s ease-in-out infinite; }
+  .bg-aurora--3{ width:460px; height:460px; background:var(--signal); top:32%; left:58%; opacity:.20; animation:driftC 38s ease-in-out infinite; }
+  .bg-aurora--4{ width:420px; height:420px; background:var(--pulse); top:62%; left:8%; opacity:.14; animation:driftB 46s ease-in-out infinite reverse; }
+  @keyframes driftA{ 0%,100%{ transform:translate(0,0) scale(1); } 33%{ transform:translate(90px,60px) scale(1.15); } 66%{ transform:translate(-40px,100px) scale(.9); } }
+  @keyframes driftB{ 0%,100%{ transform:translate(0,0) scale(1); } 40%{ transform:translate(-70px,-50px) scale(1.1); } 70%{ transform:translate(50px,-90px) scale(.92); } }
+  @keyframes driftC{ 0%,100%{ transform:translate(0,0) scale(1); } 50%{ transform:translate(-60px,50px) scale(1.18); } }
 
-  .bg-vignette{ position:absolute; inset:0; background:radial-gradient(circle at 50% 18%, transparent 0%, var(--bg-0) 80%); }
+  /* starfield layers — generated via box-shadow at runtime (see script) */
+  .star-layer{ position:absolute; inset:0; }
+  .star-layer span{
+    position:absolute; border-radius:50%; background:#fff; will-change:opacity, transform;
+    animation:twinkle linear infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:.15; transform:scale(.8); }
+    50%{ opacity:1; transform:scale(1.3); }
+  }
+
+  /* slow whole-sky rotation for a sense of depth */
+  .star-field-wrap{ position:absolute; inset:-10%; animation:skyTurn 240s linear infinite; }
+  @keyframes skyTurn{ to{ transform:rotate(360deg); } }
+
+  /* shooting stars */
+  .shooting-star{
+    position:absolute; width:2px; height:2px; background:#fff; border-radius:50%;
+    box-shadow:0 0 6px 1px #fff;
+    opacity:0; animation:shoot 9s linear infinite;
+  }
+  .shooting-star::before{
+    content:''; position:absolute; top:50%; right:0; width:90px; height:1px;
+    background:linear-gradient(90deg, rgba(255,255,255,.9), transparent);
+    transform:translateY(-50%);
+  }
+  .shooting-star--1{ top:14%; left:8%; animation-delay:0s; }
+  .shooting-star--2{ top:46%; left:64%; animation-delay:3.2s; }
+  .shooting-star--3{ top:72%; left:22%; animation-delay:6.4s; }
+  @keyframes shoot{
+    0%{ opacity:0; transform:translate(0,0) rotate(18deg); }
+    4%{ opacity:1; }
+    18%{ opacity:0; transform:translate(260px,90px) rotate(18deg); }
+    100%{ opacity:0; }
+  }
+
+  .bg-vignette{ position:absolute; inset:0; background:radial-gradient(circle at 50% 15%, transparent 0%, var(--bg-0) 82%); }
 
   /* ============================= HEADER / HERO ============================= */
   header{
@@ -146,6 +168,7 @@
     backdrop-filter:blur(10px);
   }
   .status-chip .dot{ width:7px; height:7px; border-radius:50%; background:#4ade80; box-shadow:0 0 8px #4ade80; animation:nodePulse 2s ease-in-out infinite; }
+  @keyframes nodePulse{ 0%,100%{ opacity:.25; } 50%{ opacity:1; } }
 
   .contact-links{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:22px; }
   .contact-links a{
@@ -170,18 +193,15 @@
     color:var(--ink-faint); padding:8px 14px; border-radius:8px; transition:color .25s ease;
     letter-spacing:.02em;
   }
-  nav a::before{ content:'['; margin-right:3px; opacity:.5; }
-  nav a::after{ content:']'; margin-left:3px; opacity:.5; }
   nav a:hover{ color:var(--signal); background:rgba(94,234,212,.08); }
   nav a.active{ color:var(--pulse); }
-  nav a.active::marker{ content:''; }
 
   /* ============================= SECTIONS ============================= */
   section{ padding:96px 0; position:relative; }
 
   .eyebrow{
     display:block; font-family:var(--font-mono); font-size:.82em; color:var(--signal);
-    letter-spacing:.06em; margin-bottom:10px; text-align:center;
+    letter-spacing:.06em; margin-bottom:10px; text-align:center; text-transform:uppercase;
   }
   section h2{
     font-family:var(--font-display); font-weight:700; font-size:clamp(1.9em,4vw,2.6em);
@@ -246,9 +266,8 @@
   }
   .project-card:hover{ transform:translateY(-8px); border-color:var(--border-strong); box-shadow:0 24px 50px -24px rgba(94,234,212,.4); }
   .project-card:hover::before{ transform:scaleX(1); }
-  .project-card .tag-id{ font-family:var(--font-mono); font-size:.72em; color:var(--signal); letter-spacing:.05em; }
-  .project-card h3{ font-family:var(--font-display); font-size:1.32em; margin:6px 0 4px; color:var(--ink); }
-  .project-card .date{ font-family:var(--font-mono); color:var(--ink-faint); font-size:.82em; margin-bottom:16px; }
+  .project-card h3{ font-family:var(--font-display); font-size:1.32em; margin:0 0 4px; color:var(--ink); }
+  .project-card .date{ font-family:var(--font-mono); color:var(--signal); font-size:.82em; margin-bottom:16px; letter-spacing:.03em; }
   .project-card p{ color:var(--ink-dim); margin-bottom:12px; }
   .project-card strong{ color:var(--ink); }
   .tools{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
@@ -268,7 +287,7 @@
   .skill-category h3::before{ content:''; width:9px; height:9px; border-radius:50%; background:var(--signal); box-shadow:0 0 10px var(--signal); flex-shrink:0; }
   .skill-category p{ color:var(--ink-dim); line-height:1.85; }
 
-  /* Certification / Publication / Internship clickable cards */
+  /* Certification / Publication / Experience clickable cards */
   .cert-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
   .cert-card{
     position:relative; display:flex; align-items:flex-start; gap:16px; padding:22px;
@@ -294,6 +313,12 @@
     transition:opacity .25s ease, transform .25s ease;
   }
   .cert-card:hover .open-flag, .cert-card:focus-visible .open-flag{ opacity:1; transform:translateY(0); }
+
+  .current-flag{
+    display:inline-block; margin-top:6px; font-family:var(--font-mono); font-size:.7em;
+    color:var(--pulse); border:1px solid rgba(245,185,77,.4); padding:2px 9px; border-radius:20px;
+    letter-spacing:.04em;
+  }
 
   .upload-hint{
     text-align:center; font-family:var(--font-mono); font-size:.82em; color:var(--ink-faint);
@@ -327,22 +352,14 @@
   <div class="bg-aurora bg-aurora--1"></div>
   <div class="bg-aurora bg-aurora--2"></div>
   <div class="bg-aurora bg-aurora--3"></div>
-  <div class="bg-grid"></div>
-  <svg class="bg-circuit" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,120 H260 L300,160 H600 L640,120 H1200" />
-    <path class="alt" d="M0,260 H180 L220,300 H520 L560,340 H900 L940,300 H1200" />
-    <path d="M0,420 H320 L360,460 H760 L800,420 H1200" />
-    <path class="alt" d="M0,560 H220 L260,520 H540 L580,560 H1000 L1040,600 H1200" />
-    <path d="M0,680 H400 L440,640 H820 L860,680 H1200" />
-    <path class="alt" d="M120,0 V100 L160,140 V400" />
-    <path d="M1040,0 V140 L1000,180 V480" />
-    <circle class="node" cx="300" cy="160" r="3"></circle>
-    <circle class="node" cx="560" cy="340" r="3"></circle>
-    <circle class="node" cx="360" cy="460" r="3"></circle>
-    <circle class="node" cx="580" cy="560" r="3"></circle>
-    <circle class="node" cx="820" cy="680" r="3"></circle>
-    <circle class="node" cx="1000" cy="180" r="3"></circle>
-  </svg>
+  <div class="bg-aurora bg-aurora--4"></div>
+  <div class="star-field-wrap">
+    <div class="star-layer" id="starLayerFar"></div>
+    <div class="star-layer" id="starLayerNear"></div>
+  </div>
+  <div class="shooting-star shooting-star--1"></div>
+  <div class="shooting-star shooting-star--2"></div>
+  <div class="shooting-star shooting-star--3"></div>
   <div class="bg-vignette"></div>
 </div>
 
@@ -357,8 +374,8 @@
           Final-year Electronics and Communication Engineering undergraduate at
           MIT, Anna University, Chromepet, Chennai. Hands-on experience in IoT,
           embedded systems, digital and analog communication, cybersecurity,
-          and DevOps. Currently an intern at Baton-Ubixi Systems, working on
-          real-world engineering and software solutions.
+          and DevOps. Currently interning at Baton-Ubixi Systems Pvt Ltd as a
+          DevSecOps Engineer.
         </p>
 
         <div class="contact-links">
@@ -408,7 +425,7 @@
     <a href="#skills">Skills</a>
     <a href="#achievements">Certifications</a>
     <a href="#publications">Publications</a>
-    <a href="#internships">Internships</a>
+    <a href="#experience">Experience</a>
   </div>
 </nav>
 
@@ -416,7 +433,7 @@
 
   <section id="about">
     <div class="container">
-      <span class="eyebrow">// 00_ABOUT</span>
+      <span class="eyebrow">About</span>
       <h2>About Me</h2>
       <div class="section-rule"></div>
 
@@ -448,7 +465,7 @@
 
   <section id="education">
     <div class="container">
-      <span class="eyebrow">// 01_EDUCATION</span>
+      <span class="eyebrow">Education</span>
       <h2>Education</h2>
       <div class="section-rule"></div>
 
@@ -472,14 +489,13 @@
 
   <section id="projects">
     <div class="container">
-      <span class="eyebrow">// 02_PROJECTS</span>
+      <span class="eyebrow">Projects</span>
       <h2>Projects &amp; Publications</h2>
       <div class="section-rule"></div>
 
       <div class="projects-grid">
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 01</span>
           <h3>Fingerprint-Based Identification System</h3>
           <div class="date">November 2025</div>
           <p>Developed a customized CNN-based model to identify <strong>blood group, gender, and fingerprint type</strong> from fingerprint images.</p>
@@ -493,7 +509,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 02</span>
           <h3>Smart Agricultural Monitoring System</h3>
           <div class="date">April 2025 · IJERT Publication</div>
           <p>Designed and deployed a deep learning–based plant disease detection system achieving <strong>92% accuracy</strong>. Integrated real-time SMS alerts to farmers using Twilio API and deployed on Raspberry Pi.</p>
@@ -508,7 +523,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 03</span>
           <h3>Cyber Threat Prediction System</h3>
           <div class="date">February 2025</div>
           <p>Designed and implemented a unified deep learning model to detect <strong>DDoS attacks, malware, and system failures</strong> using multi-source system and network logs.</p>
@@ -524,7 +538,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 04</span>
           <h3>DesiltBot – Automated Silt Removal System</h3>
           <div class="date">March 2024</div>
           <p>Built an intelligent robotic system using Raspberry Pi and computer vision to identify, weigh, and remove silt autonomously.</p>
@@ -540,7 +553,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 05</span>
           <h3>Personal Portfolio Website</h3>
           <div class="date">March 2024</div>
           <p>Designed and deployed a fully responsive personal portfolio website showcasing projects, skills, and professional achievements.</p>
@@ -554,7 +566,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 06</span>
           <h3>Library Management System</h3>
           <div class="date">January 2024</div>
           <p>Developed a database-driven application to manage book and student records using <strong>CRUD operations</strong>.</p>
@@ -567,7 +578,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 07</span>
           <h3>Smart Home Automation System</h3>
           <div class="date">March 2023</div>
           <p>Developed a home automation system enabling smartphone-based control of electrical appliances via Bluetooth communication.</p>
@@ -582,7 +592,6 @@
         </div>
 
         <div class="panel project-card reveal">
-          <span class="tag-id">PRJ · 08</span>
           <h3>Variable Voltage Regulator (0–32V)</h3>
           <div class="date">February 2023</div>
           <p>Designed and implemented a regulated power supply providing variable output voltage from <strong>0 to 32V</strong>.</p>
@@ -600,7 +609,7 @@
 
   <section id="skills">
     <div class="container">
-      <span class="eyebrow">// 03_SKILLS</span>
+      <span class="eyebrow">Skills</span>
       <h2>Technical Skills</h2>
       <div class="section-rule"></div>
 
@@ -635,7 +644,7 @@
 
   <section id="achievements">
     <div class="container">
-      <span class="eyebrow">// 04_CERTIFICATIONS</span>
+      <span class="eyebrow">Certifications</span>
       <h2>Certifications &amp; Achievements</h2>
       <div class="section-rule"></div>
       <p class="upload-hint">click a card to open the certificate · files load from <code>/certificates/</code></p>
@@ -762,7 +771,7 @@
 
   <section id="publications">
     <div class="container">
-      <span class="eyebrow">// 05_PUBLICATIONS</span>
+      <span class="eyebrow">Publications</span>
       <h2>Publications &amp; Presentations</h2>
       <div class="section-rule"></div>
       <p class="upload-hint">click a card to open the paper · files load from <code>/certificates/</code></p>
@@ -793,7 +802,7 @@
 
   <section id="beyond">
     <div class="container">
-      <span class="eyebrow">// 06_PROFILE</span>
+      <span class="eyebrow">Profile</span>
       <h2>Beyond Technical Skills</h2>
       <div class="section-rule"></div>
 
@@ -814,21 +823,31 @@
     </div>
   </section>
 
-  <section id="internships">
+  <section id="experience">
     <div class="container">
-      <span class="eyebrow">// 07_INTERNSHIPS</span>
-      <h2>Internships &amp; Training</h2>
+      <span class="eyebrow">Experience</span>
+      <h2>Experience</h2>
       <div class="section-rule"></div>
-      <p class="upload-hint">click a card to open the completion certificate · files load from <code>/certificates/</code></p>
+      <p class="upload-hint">click a card to open the offer / completion letter · files load from <code>/certificates/</code></p>
 
       <div class="cert-grid">
+
+        <a class="panel cert-card reveal" href="certificates/baton-ubixi-devsecops-intern-2026.pdf" target="_blank" rel="noopener" style="align-items:flex-start;">
+          <span class="open-flag">VIEW ↗</span>
+          <div class="cert-icon">🛡️</div>
+          <div class="cert-content">
+            <strong>DevSecOps Engineer Intern — Baton-Ubixi Systems Pvt Ltd</strong>
+            <span>March 2026 — Present<br>Working on secure CI/CD pipelines, infrastructure automation, and integrating security practices into the software development lifecycle.</span>
+            <span class="current-flag">CURRENT</span>
+          </div>
+        </a>
 
         <a class="panel cert-card reveal" href="certificates/ediglobe-web-dev-internship-2025.pdf" target="_blank" rel="noopener" style="align-items:flex-start;">
           <span class="open-flag">VIEW ↗</span>
           <div class="cert-icon">💼</div>
           <div class="cert-content">
             <strong>Web Development Internship — Ediglobe</strong>
-            <span>Online · 3 Months (2025)<br>Front-end development using HTML, CSS and JavaScript with real-world project exposure.</span>
+            <span>2025 · Online · 3 Months<br>Front-end development using HTML, CSS and JavaScript with real-world project exposure.</span>
           </div>
         </a>
 
@@ -837,7 +856,7 @@
           <div class="cert-icon">🤖</div>
           <div class="cert-content">
             <strong>AI / ML Training Program — NEOSKILLZ</strong>
-            <span>Online · 1 Month (2025)<br>Hands-on training in machine learning models, data preprocessing, and model evaluation.</span>
+            <span>2025 · Online · 1 Month<br>Hands-on training in machine learning models, data preprocessing, and model evaluation.</span>
           </div>
         </a>
 
@@ -849,7 +868,7 @@
 
 <footer>
   <div class="container">
-    <span class="eyebrow">// EOF</span>
+    <span class="eyebrow">Contact</span>
     <p style="font-size:1.2em; color:var(--ink); font-weight:600;">Let's Build Something Amazing Together!</p>
     <p>📍 Chennai, Tamil Nadu, India</p>
     <p>📧 gpraveenkumar2005@gmail.com &nbsp;|&nbsp; 📞 +91 96004 04942</p>
@@ -907,6 +926,32 @@
       ring.style.transform = 'translate(' + x + 'px,' + y + 'px)';
     });
   }
+
+  // Generate galaxy starfield
+  (function(){
+    function buildLayer(el, count, sizeRange, twinkleRange){
+      if(!el) return;
+      var frag = document.createDocumentFragment();
+      for(var i=0;i<count;i++){
+        var s = document.createElement('span');
+        var size = (Math.random()*(sizeRange[1]-sizeRange[0])+sizeRange[0]).toFixed(2);
+        var top = Math.random()*100;
+        var left = Math.random()*100;
+        var dur = (Math.random()*(twinkleRange[1]-twinkleRange[0])+twinkleRange[0]).toFixed(2);
+        var delay = (Math.random()*dur).toFixed(2);
+        s.style.width = size+'px';
+        s.style.height = size+'px';
+        s.style.top = top+'%';
+        s.style.left = left+'%';
+        s.style.animationDuration = dur+'s';
+        s.style.animationDelay = '-'+delay+'s';
+        frag.appendChild(s);
+      }
+      el.appendChild(frag);
+    }
+    buildLayer(document.getElementById('starLayerFar'), 140, [0.6,1.4], [2.5,5]);
+    buildLayer(document.getElementById('starLayerNear'), 70, [1.4,2.6], [1.8,3.5]);
+  })();
 </script>
 
 </body>
