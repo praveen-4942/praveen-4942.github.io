@@ -91,7 +91,7 @@
   .bg-vignette{ position:absolute; inset:0; background:radial-gradient(circle at 50% 10%, transparent 0%, var(--bg) 78%); }
 
   /* ============================= HEADER / HERO ============================= */
-  header{ position:relative; padding:120px 0 80px; border-bottom:1px solid var(--border); }
+  header{ position:relative; padding:clamp(72px, 14vw, 120px) 0 clamp(44px, 8vw, 80px); border-bottom:1px solid var(--border); }
 
   .boot-log{
     font-family:var(--font-mono); font-size:.78em; color:var(--signal);
@@ -176,7 +176,7 @@
   nav a.active{ color:var(--copper); }
 
   /* ============================= SECTIONS ============================= */
-  section{ padding:92px 0; position:relative; }
+  section{ padding:clamp(48px, 8vw, 84px) 0; position:relative; }
   .eyebrow{
     display:block; font-family:var(--font-mono); font-size:.82em; color:var(--signal);
     letter-spacing:.06em; margin-bottom:10px; text-align:center; text-transform:uppercase;
@@ -188,7 +188,7 @@
 
   /* Signature divider: a circuit trace with current flowing through it,
      terminating in a via — echoes the background motif on purpose. */
-  .section-rule{ width:120px; height:10px; margin:0 auto 56px; position:relative; }
+  .section-rule{ width:120px; height:10px; margin:0 auto clamp(32px, 6vw, 48px); position:relative; }
   .section-rule svg{ width:100%; height:100%; overflow:visible; }
   .section-rule .track{ stroke:var(--border); stroke-width:2; fill:none; }
   .section-rule .pulse{ stroke:var(--signal); stroke-width:2; fill:none; stroke-dasharray:14 90; animation:tracePulse 2.6s linear infinite; }
@@ -320,11 +320,11 @@
      ============================= */
   .stack-wrap{ display:flex; flex-direction:column; align-items:center; }
   .stack-card{
-    position:sticky; width:100%; max-width:640px; margin-bottom:48px;
+    position:sticky; width:100%; max-width:640px; margin-bottom:clamp(20px, 4vw, 40px);
     transform-origin:top center; will-change:transform, filter;
     transition:transform .3s ease, filter .3s ease;
   }
-  #projects .stack-card{ margin-bottom:70px; }
+  #projects .stack-card{ margin-bottom:clamp(32px, 6vw, 56px); }
   .stack-card .panel{ padding:28px; border-radius:var(--radius); }
   .stack-card.is-behind{ transform:scale(.94); filter:brightness(.65) saturate(.85); }
 
@@ -340,20 +340,24 @@
   .show-more-btn.expanded svg{ transform:rotate(180deg); }
 
   /* =============================
-     LOGO LOOP  (marquee row of core tools, above Technical Skills)
+     LOGO LOOP  (top marquee — real tool icons via devicon CDN)
      Pure CSS infinite scroll — two duplicated tracks, no JS needed.
      ============================= */
-  .logo-loop{ position:relative; overflow:hidden; margin:-8px auto 44px; max-width:900px; }
-  .logo-loop::before, .logo-loop::after{
-    content:''; position:absolute; top:0; bottom:0; width:64px; z-index:2; pointer-events:none;
+  .logo-loop-band{
+    position:relative; overflow:hidden; border-bottom:1px solid var(--border);
+    background:rgba(7,11,10,.75);
   }
-  .logo-loop::before{ left:0; background:linear-gradient(to right, var(--bg), transparent); }
-  .logo-loop::after{ right:0; background:linear-gradient(to left, var(--bg), transparent); }
-  .logo-loop-track{ display:flex; width:max-content; gap:14px; animation:loopScroll 26s linear infinite; }
-  .logo-loop-track span{
-    font-family:var(--font-mono); font-size:.8em; padding:8px 16px; border-radius:20px; white-space:nowrap;
-    background:var(--panel); border:1px solid var(--border); color:var(--ink-dim);
+  .logo-loop-band::before, .logo-loop-band::after{
+    content:''; position:absolute; top:0; bottom:0; width:70px; z-index:2; pointer-events:none;
   }
+  .logo-loop-band::before{ left:0; background:linear-gradient(to right, var(--bg), transparent); }
+  .logo-loop-band::after{ right:0; background:linear-gradient(to left, var(--bg), transparent); }
+  .logo-loop-track{ display:flex; width:max-content; gap:0; animation:loopScroll 30s linear infinite; padding:14px 0; }
+  .logo-loop-track:hover{ animation-play-state:paused; }
+  .logo-loop-item{
+    display:inline-flex; align-items:center; padding:0 14px;
+  }
+  .logo-loop-item img{ height:24px; display:block; border-radius:3px; }
   @keyframes loopScroll{ to{ transform:translateX(-50%); } }
 
   /* =============================
@@ -363,10 +367,28 @@
   #profileElectric{ position:absolute; inset:-34px; pointer-events:none; }
 
   /* =============================
-     STRANDS BACKGROUND  (page-wide flowing glow strands, canvas-driven)
-     Replaces the circuit-trace SVG as the primary background motif.
+     PIXEL SNOW BACKGROUND  (page-wide, canvas-driven)
+     Small drifting squares in a retro pixelated style — the primary
+     background motif, replacing the earlier flowing-strand version.
      ============================= */
-  #strandsBg{ position:absolute; inset:0; width:100%; height:100%; opacity:.55; }
+  #pixelSnowBg{ position:absolute; inset:0; width:100%; height:100%; opacity:.6; image-rendering:pixelated; }
+
+  /* =============================
+     STRANDS BOTTOM BANNER  (flowing glow strands, confined to a strip
+     just above the footer rather than the whole page)
+     ============================= */
+  .bottom-strands{ position:relative; height:150px; overflow:hidden; border-top:1px solid var(--border); }
+  #strandsBottom{ position:absolute; inset:0; width:100%; height:100%; }
+
+  /* =============================
+     SCROLL REVEAL  (word-by-word fade + blur on headings, applied to
+     the hero title and every section h2)
+     ============================= */
+  .reveal-text .word{
+    display:inline-block; opacity:0; filter:blur(6px); transform:translateY(8px);
+    transition:opacity .5s ease, filter .5s ease, transform .5s ease;
+  }
+  .reveal-text.in-view .word{ opacity:1; filter:blur(0); transform:none; }
 
   /* Hero polish */
   .hero-content{ position:relative; }
@@ -379,11 +401,9 @@
   .interest-tags .tag:hover{ border-color:var(--border-strong); transform:translateY(-2px); background:rgba(94,234,212,.12); }
 
   @media (max-width:768px){
-    header{ padding:90px 0 60px; }
     .hero-layout{ flex-direction:column-reverse; text-align:center; gap:36px; }
     .boot-log{ margin-left:auto; margin-right:auto; text-align:left; }
     .interest-tags, .contact-links{ justify-content:center; }
-    section{ padding:64px 0; }
     .cert-grid{ grid-template-columns:1fr; }
     .timeline::before{ left:10px; }
     .tilt{ transform:none !important; }
@@ -396,8 +416,34 @@
 <canvas id="cursorTrail" aria-hidden="true"></canvas>
 
 <div class="bg-scene" aria-hidden="true">
-  <canvas id="strandsBg"></canvas>
+  <canvas id="pixelSnowBg"></canvas>
   <div class="bg-vignette"></div>
+</div>
+
+<div class="logo-loop-band" aria-hidden="true">
+  <div class="logo-loop-track">
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white" alt="Kubernetes" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white" alt="Terraform" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white" alt="Ansible" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white" alt="AWS" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white" alt="Jenkins" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white" alt="Grafana" loading="lazy"></span>
+    <!-- duplicated for seamless loop -->
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Kubernetes-326CE5?style=flat-square&logo=kubernetes&logoColor=white" alt="Kubernetes" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Terraform-7B42BC?style=flat-square&logo=terraform&logoColor=white" alt="Terraform" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Ansible-EE0000?style=flat-square&logo=ansible&logoColor=white" alt="Ansible" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white" alt="AWS" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=jenkins&logoColor=white" alt="Jenkins" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white" alt="Git" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux" loading="lazy"></span>
+    <span class="logo-loop-item"><img src="https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white" alt="Grafana" loading="lazy"></span>
+  </div>
 </div>
 
 <header>
@@ -407,14 +453,12 @@
 
         <div class="boot-log" id="bootLog" aria-hidden="true"></div>
 
-        <h1>Praveenkumar G</h1>
-
-        
+        <h1 class="reveal-text">Praveenkumar G</h1>
+        <p class="subtitle">DevSecOps Engineer Intern</p>
 
         <div class="interest-tags">
           <span class="tag">☁️ Cloud Enthusiast</span>
           <span class="tag">🤖 AI &amp; ML Explorer</span>
-          <span class="tag">☁️ DevOps Engineer</span>
           <span class="tag">🎨 Pencil Drawings</span>
           <span class="tag">🧩 Games &amp; Puzzles</span>
           <span class="tag">🖌️ Pixel Arts</span>
@@ -490,7 +534,7 @@
   <section id="about">
     <div class="container">
       <span class="eyebrow">About</span>
-      <h2>About Me</h2>
+      <h2 class="reveal-text">About Me</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
@@ -506,32 +550,21 @@
 
         <div class="stats-grid">
           <div class="panel stat-card tilt">
-            <div class="stat-number" data-count-to="4" data-decimals="">0</div>
-            <div class="stat-label">Intern Experience</div>
+            <div class="stat-number" data-count-to="8.73" data-decimals="2">0</div>
+            <div class="stat-label">CGPA / 10.0</div>
           </div>
           <div class="panel stat-card tilt">
-            <div class="stat-number" data-count-to="10" data-suffix="+">0</div>
+            <div class="stat-number" data-count-to="8" data-suffix="">0</div>
             <div class="stat-label">Projects Built</div>
           </div>
           <div class="panel stat-card tilt">
             <div class="stat-number" data-count-to="20" data-suffix="+">0</div>
-            <div class="stat-label">Online Certifications</div>
+            <div class="stat-label">Certifications</div>
           </div>
           <div class="panel stat-card tilt">
             <div class="stat-number" data-count-to="3" data-suffix="">0</div>
             <div class="stat-label">Publications</div>
           </div>
-          <div class="panel stat-card tilt">
-            <div class="stat-number" data-count-to="5" data-suffix="+">0</div>
-            <div class="stat-label">Open Source Contributions</div>
-          </div>
-
-           <div class="panel stat-card tilt">
-            <div class="stat-number" data-count-to="20" data-suffix="+">0</div>
-            <div class="stat-label">Arts and Crafts</div>
-          </div>
-
-          
         </div>
       </div>
     </div>
@@ -540,7 +573,7 @@
   <section id="education">
     <div class="container">
       <span class="eyebrow">Education</span>
-      <h2>Education</h2>
+      <h2 class="reveal-text">Education</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
@@ -555,8 +588,8 @@
         <div class="panel education-item reveal">
           <h3>SRM Muthamizhl Hr.Sec School, Salem</h3>
           <div class="date">2020 — 2022</div>
-          <p><strong>10th Grade:</strong> <span class="grade">97.67%</span></p>
-          <p><strong>12th Grade:</strong> <span class="grade">99.67%</span></p>
+          <p><strong>Higher Secondary Certificate:</strong> <span class="grade">97.67%</span></p>
+          <p><strong>Secondary School Leaving Certificate:</strong> <span class="grade">99.67%</span></p>
         </div>
       </div>
     </div>
@@ -565,11 +598,11 @@
   <section id="experience">
     <div class="container">
       <span class="eyebrow">Experience</span>
-      <h2>Experience</h2>
+      <h2 class="reveal-text">Experience</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
-     
+      <p class="upload-hint">click a card to open the offer / completion letter · files load from <code>/certificates/</code></p>
 
       <div class="cert-grid">
         <a class="panel cert-card tilt reveal" href="certificates/baton-ubixi-devsecops-intern-2026.pdf" target="_blank" rel="noopener">
@@ -606,7 +639,7 @@
   <section id="projects">
     <div class="container">
       <span class="eyebrow">Projects</span>
-      <h2>Academic and Personal Projects</h2>
+      <h2 class="reveal-text">Academic and Personal Projects</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
@@ -718,20 +751,9 @@
   <section id="skills">
     <div class="container">
       <span class="eyebrow">Skills</span>
-      <h2>Technical Skills</h2>
+      <h2 class="reveal-text">Technical Skills</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
-      </div>
-
-      <div class="logo-loop" aria-hidden="true">
-        <div class="logo-loop-track">
-          <span>Kubernetes</span><span>Docker</span><span>AWS</span><span>Terraform</span><span>Ansible</span>
-          <span>Jenkins</span><span>Python</span><span>TensorFlow</span><span>OpenCV</span><span>Raspberry Pi</span>
-          <span>Verilog</span><span>Git</span>
-          <span>Kubernetes</span><span>Docker</span><span>AWS</span><span>Terraform</span><span>Ansible</span>
-          <span>Jenkins</span><span>Python</span><span>TensorFlow</span><span>OpenCV</span><span>Raspberry Pi</span>
-          <span>Verilog</span><span>Git</span>
-        </div>
       </div>
 
       <div class="stack-wrap" id="skillsStack">
@@ -803,11 +825,12 @@
   <section id="achievements">
     <div class="container">
       <span class="eyebrow">Certifications</span>
-      <h2>Certifications &amp; Achievements</h2>
+      <h2 class="reveal-text">Certifications &amp; Achievements</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
-    
+      <p class="upload-hint">click a card to open the certificate · files load from <code>/certificates/</code></p>
+
       <div class="stack-wrap" id="certStack">
         <div class="stack-card">
           <a class="panel cert-card tilt reveal" href="certificates/coursera-intro-java-2025.pdf" target="_blank" rel="noopener">
@@ -934,11 +957,12 @@
   <section id="publications">
     <div class="container">
       <span class="eyebrow">Publications</span>
-      <h2>Publications &amp; Presentations</h2>
+      <h2 class="reveal-text">Publications &amp; Presentations</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
-     
+      <p class="upload-hint">click a card to open the paper · files load from <code>/certificates/</code></p>
+
       <div class="stack-wrap" id="pubStack">
         <div class="stack-card">
           <a class="panel cert-card tilt reveal" href="certificates/ieee-sisimpact-2025-ddos-iot.pdf" target="_blank" rel="noopener">
@@ -965,7 +989,7 @@
   <section id="beyond">
     <div class="container">
       <span class="eyebrow">Profile</span>
-      <h2>Beyond Technical Skills</h2>
+      <h2 class="reveal-text">Beyond Technical Skills</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
@@ -1000,6 +1024,10 @@
   </section>
 
 </main>
+
+<div class="bottom-strands" aria-hidden="true">
+  <canvas id="strandsBottom"></canvas>
+</div>
 
 <footer>
   <div class="container">
@@ -1112,8 +1140,8 @@
 
   function initStacks(){
     stackWraps.forEach(function(wrap){
-      var baseTop = wrap.closest('#projects') ? 104 : 96;
-      var step = wrap.closest('#projects') ? 16 : 14;
+      var baseTop = wrap.closest('#projects') ? 92 : 82;
+      var step = wrap.closest('#projects') ? 14 : 12;
       visibleCards(wrap).forEach(function(card, i){
         card.style.top = (baseTop + i * step) + 'px';
         card.style.zIndex = i + 1;
@@ -1187,16 +1215,18 @@
     counters.forEach(function(el){ counterObserver.observe(el); });
   })();
 
-  // Strands-lite background: a handful of flowing sine-wave strands drawn
-  // on a fixed low-cost canvas. No WebGL — two strokes per strand (a wide
-  // translucent one plus a thin bright core) fake the glow cheaply.
+  // PixelSnow-lite background: small drifting squares in a retro pixel
+  // style, replacing the earlier full-page flowing-strand background.
+  // Cheap by construction — flat-colored rects, no gradients or blur.
   (function(){
-    var canvas = document.getElementById('strandsBg');
+    var canvas = document.getElementById('pixelSnowBg');
     if(!canvas) return;
     var ctx = canvas.getContext('2d');
     var dpr = 1;
     var w = 0, h = 0;
-    var strandColors = ['94,234,212', '217,142,74', '94,234,212'];
+    var flakes = [];
+    var COUNT = 90;
+    var windAngle = (125 * Math.PI) / 180; // matches PixelSnow's default direction prop
 
     function resize(){
       w = window.innerWidth; h = window.innerHeight;
@@ -1208,33 +1238,100 @@
     var resizeTimer3;
     window.addEventListener('resize', function(){ clearTimeout(resizeTimer3); resizeTimer3 = setTimeout(resize, 200); });
 
-    if(prefersReduced){ return; } // static gradient (already in CSS) is enough
+    function spawn(randomY){
+      return {
+        x: Math.random() * w,
+        y: randomY ? Math.random() * h : -8,
+        size: Math.random() < 0.15 ? 3 : (Math.random() < 0.5 ? 1 : 2),
+        speed: 14 + Math.random() * 26,
+        drift: 0.4 + Math.random() * 0.5,
+        tint: Math.random() < 0.2 ? '217,142,74' : (Math.random() < 0.5 ? '94,234,212' : '234,242,238')
+      };
+    }
+    for(var i = 0; i < COUNT; i++){ flakes.push(spawn(true)); }
+
+    if(prefersReduced){ return; } // static radial-gradient backdrop (CSS) is enough
 
     var visible = !document.hidden;
     document.addEventListener('visibilitychange', function(){ visible = !document.hidden; });
 
+    var lastT = 0;
     function draw(t){
       requestAnimationFrame(draw);
       if(!visible) return;
-      var time = t * 0.00035;
+      var dt = Math.min(0.05, (t - lastT) / 1000 || 0);
+      lastT = t;
+      ctx.clearRect(0, 0, w, h);
+      var windX = Math.cos(windAngle);
+      for(var i = 0; i < flakes.length; i++){
+        var f = flakes[i];
+        f.y += f.speed * dt;
+        f.x += windX * f.drift * f.speed * dt * 0.3;
+        if(f.y > h + 8){ flakes[i] = spawn(false); continue; }
+        if(f.x < -8) f.x = w + 8; else if(f.x > w + 8) f.x = -8;
+        ctx.fillStyle = 'rgba(' + f.tint + ',0.55)';
+        ctx.fillRect(Math.round(f.x), Math.round(f.y), f.size, f.size);
+      }
+    }
+    requestAnimationFrame(draw);
+  })();
+
+  // Strands-lite bottom banner: the flowing sine-wave strand effect,
+  // now confined to a fixed-height strip above the footer instead of
+  // spanning the whole page. Same cheap double-stroke glow trick.
+  (function(){
+    var canvas = document.getElementById('strandsBottom');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var dpr = 1;
+    var w = 0, h = 0;
+    var strandColors = ['94,234,212', '217,142,74', '94,234,212'];
+
+    function resize(){
+      var host = canvas.parentElement;
+      w = host.clientWidth; h = host.clientHeight;
+      canvas.width = w * dpr; canvas.height = h * dpr;
+      canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    var resizeTimer4;
+    window.addEventListener('resize', function(){ clearTimeout(resizeTimer4); resizeTimer4 = setTimeout(resize, 200); });
+
+    if(prefersReduced){ return; }
+
+    var visible2b = !document.hidden;
+    document.addEventListener('visibilitychange', function(){ visible2b = !document.hidden; });
+
+    // Only animate while the banner is actually on screen.
+    var onScreen = false;
+    var bannerObserver = new IntersectionObserver(function(entries){
+      onScreen = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    bannerObserver.observe(canvas.parentElement);
+
+    function draw(t){
+      requestAnimationFrame(draw);
+      if(!visible2b || !onScreen) return;
+      var time = t * 0.00045;
       ctx.clearRect(0, 0, w, h);
       for(var s = 0; s < 3; s++){
         var color = strandColors[s];
-        var amp = h * (0.06 + s * 0.02);
-        var freq = 0.0016 + s * 0.0004;
+        var amp = h * 0.28;
+        var freq = 0.004 + s * 0.0012;
         var phase = s * 2.1;
-        var baseY = h * (0.22 + s * 0.28);
+        var baseY = h * (0.3 + s * 0.22);
 
         ctx.beginPath();
-        for(var x = 0; x <= w; x += 12){
+        for(var x = 0; x <= w; x += 10){
           var y = baseY + Math.sin(x * freq + time * (1 + s * 0.4) + phase) * amp
                          + Math.sin(x * freq * 2.3 - time * 0.6 + phase) * (amp * 0.3);
           if(x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
-        ctx.strokeStyle = 'rgba(' + color + ',0.08)';
-        ctx.lineWidth = 14;
+        ctx.strokeStyle = 'rgba(' + color + ',0.1)';
+        ctx.lineWidth = 12;
         ctx.stroke();
-        ctx.strokeStyle = 'rgba(' + color + ',0.35)';
+        ctx.strokeStyle = 'rgba(' + color + ',0.4)';
         ctx.lineWidth = 1.4;
         ctx.stroke();
       }
@@ -1299,16 +1396,19 @@
     requestAnimationFrame(draw);
   })();
 
-  // Cursor trail (SplashCursor-lite): a fixed canvas painting fading glow
-  // particles along the pointer path. No WebGL, no fluid solver — just a
-  // couple dozen circles redrawn each frame. Skipped entirely on touch
-  // devices and when the person prefers reduced motion.
+  // Cursor trail (SplashCursor-lite), v2: instead of separate glow blobs,
+  // consecutive points are connected into a tapering, fading stroked line —
+  // reads as a smooth "comet" rather than a scatter of dots — plus a
+  // click-burst (a nod to SplashCursor's clickSplat) that fires a ring of
+  // bright particles outward from the pointer. Still just canvas 2D, no
+  // WebGL, still skipped on touch devices and under reduced motion.
   (function(){
     var canvas = document.getElementById('cursorTrail');
     if(!canvas || prefersReduced || !pointerFine) { if(canvas) canvas.remove(); return; }
     var ctx = canvas.getContext('2d');
     var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    var particles = [];
+    var trail = [];       // recent pointer positions, newest last
+    var bursts = [];      // click-burst particles
     var colors = ['94,234,212', '217,142,74'];
     var lastEmit = 0;
 
@@ -1325,14 +1425,24 @@
 
     document.addEventListener('pointermove', function(e){
       var now = performance.now();
-      if(now - lastEmit < 22) return; // throttle emission rate, not just drawing
+      if(now - lastEmit < 12) return; // smoother trail than before (was 22ms)
       lastEmit = now;
-      particles.push({
-        x: e.clientX, y: e.clientY,
-        vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6,
-        life: 1, color: colors[particles.length % 2]
-      });
-      if(particles.length > 40) particles.shift();
+      trail.push({ x: e.clientX, y: e.clientY, life: 1 });
+      if(trail.length > 26) trail.shift();
+    }, { passive:true });
+
+    document.addEventListener('pointerdown', function(e){
+      var color = colors[Math.floor(Math.random() * colors.length)];
+      var count = 14;
+      for(var i = 0; i < count; i++){
+        var angle = (i / count) * Math.PI * 2;
+        var speed = 1.4 + Math.random() * 1.8;
+        bursts.push({
+          x: e.clientX, y: e.clientY,
+          vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed,
+          life: 1, color: color
+        });
+      }
     }, { passive:true });
 
     var visible = !document.hidden;
@@ -1342,21 +1452,90 @@
       requestAnimationFrame(frame);
       if(!visible) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for(var i = particles.length - 1; i >= 0; i--){
-        var p = particles[i];
-        p.x += p.vx; p.y += p.vy; p.life -= 0.025;
-        if(p.life <= 0){ particles.splice(i, 1); continue; }
-        var r = 18 * p.life;
-        var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r);
-        grad.addColorStop(0, 'rgba(' + p.color + ',' + (0.5 * p.life) + ')');
+
+      // Comet trail: draw as connected segments, each older point thinner,
+      // dimmer, and shifted toward the second palette color.
+      for(var i = trail.length - 1; i >= 0; i--){
+        trail[i].life -= 0.045;
+        if(trail[i].life <= 0){ trail.splice(i, 1); }
+      }
+      for(var j = 1; j < trail.length; j++){
+        var a = trail[j - 1], b = trail[j];
+        var t = j / trail.length;
+        var color = colors[t > 0.5 ? 1 : 0];
+        ctx.strokeStyle = 'rgba(' + color + ',' + (0.45 * b.life) + ')';
+        ctx.lineWidth = 8 * b.life;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+      // Bright core on top of the glow for a crisper comet head.
+      if(trail.length){
+        var head = trail[trail.length - 1];
+        ctx.fillStyle = 'rgba(234,242,238,' + (0.8 * head.life) + ')';
+        ctx.beginPath();
+        ctx.arc(head.x, head.y, 2.4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Click burst particles.
+      for(var k = bursts.length - 1; k >= 0; k--){
+        var p = bursts[k];
+        p.x += p.vx; p.y += p.vy; p.vx *= 0.94; p.vy *= 0.94; p.life -= 0.035;
+        if(p.life <= 0){ bursts.splice(k, 1); continue; }
+        var r = 4 * p.life + 1;
+        var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 3);
+        grad.addColorStop(0, 'rgba(' + p.color + ',' + (0.8 * p.life) + ')');
         grad.addColorStop(1, 'rgba(' + p.color + ',0)');
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, r * 3, 0, Math.PI * 2);
         ctx.fill();
       }
     }
     requestAnimationFrame(frame);
+  })();
+
+  // ScrollReveal-lite: splits each heading into words and fades/blurs them
+  // in with a stagger once the heading enters view. A plain-JS stand-in for
+  // the GSAP ScrollTrigger version — one-shot reveal rather than true scrub,
+  // but visually close and needs no animation library.
+  (function(){
+    var targets = document.querySelectorAll('.reveal-text');
+    if(!targets.length) return;
+    if(prefersReduced){ return; } // leave headings plainly visible
+
+    targets.forEach(function(el){
+      var text = el.textContent;
+      var frag = document.createDocumentFragment();
+      text.split(/(\s+)/).forEach(function(token){
+        if(/^\s+$/.test(token)){
+          frag.appendChild(document.createTextNode(token));
+        } else if(token.length){
+          var span = document.createElement('span');
+          span.className = 'word';
+          span.textContent = token;
+          frag.appendChild(span);
+        }
+      });
+      el.textContent = '';
+      el.appendChild(frag);
+
+      var words = el.querySelectorAll('.word');
+      words.forEach(function(w, i){ w.style.transitionDelay = (i * 45) + 'ms'; });
+    });
+
+    var revealObserver2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          revealObserver2.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4, rootMargin: '0px 0px -40px 0px' });
+    targets.forEach(function(el){ revealObserver2.observe(el); });
   })();
 
   // Boot-sequence typewriter — a decorative enhancement only; all real content
