@@ -551,6 +551,172 @@
     .tilt{ transform:none !important; }
     .stack-card{ position:relative !important; transform:none !important; filter:none !important; top:auto !important; }
   }
+
+  /* =============================
+     THEME SWITCHER
+     A light-mode alternate palette, swapped in via [data-theme="light"] on
+     <html>. Colors stay in the same teal/copper family so the swap reads
+     as "same identity, different lighting" rather than a different site.
+     ============================= */
+  html[data-theme="light"]{
+    --bg:#f3f8f6;
+    --board:#e6f0ec;
+    --panel:rgba(255,255,255,0.86);
+    --panel-strong:rgba(255,255,255,0.97);
+    --border:rgba(15,118,110,0.18);
+    --border-strong:rgba(15,118,110,0.42);
+    --copper-line:rgba(180,95,30,0.28);
+    --ink:#0d1b16;
+    --ink-dim:#3d5148;
+    --ink-faint:#71857a;
+    --signal:#0f9c8c;
+    --copper:#b4601e;
+    --alert:#c23b3a;
+  }
+  body{ transition:background-color .45s ease, color .45s ease; }
+  html[data-theme="light"] .profile-fallback{ background:linear-gradient(135deg, #dff2ec, #c9e6dd); }
+  html[data-theme="light"] #pixelSnowBg{ opacity:.35; }
+  html[data-theme="light"] .contact-links svg{ fill:var(--signal); }
+
+  #themeToggle{
+    display:inline-flex; align-items:center; justify-content:center; gap:0;
+    width:38px; height:38px; border-radius:9px; margin-left:6px;
+    background:transparent; border:1px solid var(--border); cursor:pointer;
+    color:var(--signal); transition:border-color .25s ease, background .25s ease, transform .3s ease;
+    flex-shrink:0;
+  }
+  #themeToggle:hover{ border-color:var(--border-strong); background:rgba(94,234,212,.08); }
+  #themeToggle svg{ width:17px; height:17px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; transition:opacity .2s ease, transform .4s ease; }
+  #themeToggle .icon-moon{ display:none; }
+  html[data-theme="light"] #themeToggle .icon-sun{ display:none; }
+  html[data-theme="light"] #themeToggle .icon-moon{ display:block; }
+  nav .container{ position:relative; }
+
+  /* =============================
+     TERMINAL EASTER EGG
+     A fullscreen fake-terminal overlay toggled with the backtick key (`)
+     or a small floating trigger tab. Commands are hand-rolled, no real
+     shell — purely a themed Q&A interface over the resume content.
+     ============================= */
+  #terminalHint{
+    position:fixed; left:18px; bottom:18px; z-index:499;
+    display:flex; align-items:center; gap:8px; padding:9px 14px; border-radius:10px;
+    background:var(--panel-strong); border:1px solid var(--border); cursor:pointer;
+    font-family:var(--font-mono); font-size:.74em; color:var(--ink-dim);
+    transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+  #terminalHint:hover{ border-color:var(--border-strong); transform:translateY(-2px); box-shadow:0 14px 30px -18px rgba(94,234,212,.5); }
+  #terminalHint kbd{
+    font-family:var(--font-mono); background:rgba(94,234,212,.12); border:1px solid var(--border-strong);
+    border-radius:5px; padding:1px 7px; color:var(--signal); font-size:.95em;
+  }
+  #terminalHint .dot{ width:6px; height:6px; border-radius:50%; background:var(--signal); box-shadow:0 0 8px var(--signal); animation:nodePulse 2s ease-in-out infinite; }
+
+  #terminalOverlay{
+    position:fixed; inset:0; z-index:5000; display:none;
+    background:rgba(4,8,7,.72); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    align-items:center; justify-content:center; padding:24px;
+  }
+  #terminalOverlay.open{ display:flex; }
+  .terminal-window{
+    width:100%; max-width:760px; height:min(560px, 78vh); display:flex; flex-direction:column;
+    background:#07100d; border:1px solid var(--border-strong); border-radius:14px; overflow:hidden;
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(94,234,212,.06);
+    font-family:var(--font-mono); animation:termIn .25s ease;
+  }
+  @keyframes termIn{ from{ opacity:0; transform:translateY(16px) scale(.98); } to{ opacity:1; transform:none; } }
+  .terminal-titlebar{
+    display:flex; align-items:center; gap:8px; padding:11px 14px;
+    background:rgba(94,234,212,.05); border-bottom:1px solid var(--border);
+  }
+  .terminal-titlebar .tb-dot{ width:11px; height:11px; border-radius:50%; }
+  .terminal-titlebar .tb-dot.red{ background:#ff5f56; }
+  .terminal-titlebar .tb-dot.yellow{ background:#ffbd2e; }
+  .terminal-titlebar .tb-dot.green{ background:#27c93f; }
+  .terminal-titlebar span.label{ margin-left:8px; color:var(--ink-faint); font-size:.78em; flex:1; text-align:center; }
+  .terminal-titlebar .tb-close{ background:none; border:none; color:var(--ink-faint); cursor:pointer; font-size:.85em; font-family:var(--font-mono); padding:2px 8px; border-radius:5px; }
+  .terminal-titlebar .tb-close:hover{ color:var(--signal); background:rgba(94,234,212,.08); }
+  .terminal-body{ flex:1; overflow-y:auto; padding:16px 18px; font-size:.86em; line-height:1.7; color:var(--ink-dim); }
+  .terminal-body::-webkit-scrollbar{ width:8px; }
+  .terminal-body::-webkit-scrollbar-thumb{ background:rgba(94,234,212,.2); border-radius:4px; }
+  .terminal-line{ white-space:pre-wrap; word-break:break-word; margin-bottom:2px; }
+  .terminal-line.cmd{ color:var(--ink); }
+  .terminal-line.cmd::before{ content:'guest@praveenkumar:~$ '; color:var(--signal); }
+  .terminal-line.out{ color:var(--ink-dim); }
+  .terminal-line.accent{ color:var(--signal); }
+  .terminal-line.warn{ color:var(--copper); }
+  .terminal-line.ascii{ color:var(--signal); font-size:.9em; opacity:.9; }
+  .terminal-inputrow{ display:flex; align-items:center; gap:8px; padding:12px 18px; border-top:1px solid var(--border); background:rgba(94,234,212,.03); }
+  .terminal-inputrow .prompt{ color:var(--signal); font-size:.86em; flex-shrink:0; }
+  .terminal-inputrow input{
+    flex:1; background:none; border:none; outline:none; color:var(--ink);
+    font-family:var(--font-mono); font-size:.86em; caret-color:var(--signal);
+  }
+  .terminal-inputrow input::placeholder{ color:var(--ink-faint); }
+
+  @media (max-width:600px){
+    #terminalHint span.label-text{ display:none; }
+  }
+
+  /* =============================
+     PROJECT FILTER / SEARCH BAR
+     ============================= */
+  .project-filters{ max-width:780px; margin:0 auto clamp(28px, 5vw, 40px); display:flex; flex-direction:column; gap:16px; align-items:center; }
+  .project-search{ position:relative; width:100%; max-width:420px; }
+  .project-search input{
+    width:100%; padding:11px 16px 11px 40px; border-radius:30px;
+    background:var(--panel); border:1px solid var(--border); color:var(--ink);
+    font-family:var(--font-body); font-size:.92em; outline:none;
+    transition:border-color .25s ease, background .25s ease;
+  }
+  .project-search input:focus{ border-color:var(--border-strong); background:var(--panel-strong); }
+  .project-search input::placeholder{ color:var(--ink-faint); }
+  .project-search svg{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:15px; height:15px; stroke:var(--ink-faint); fill:none; stroke-width:2; stroke-linecap:round;
+  }
+  .project-tagbar{ display:flex; flex-wrap:wrap; gap:9px; justify-content:center; }
+  .project-tagbar button{
+    font-family:var(--font-mono); font-size:.78em; padding:7px 15px; border-radius:20px;
+    background:var(--panel); border:1px solid var(--border); color:var(--ink-dim); cursor:pointer;
+    transition:border-color .2s ease, background .2s ease, color .2s ease, transform .2s ease;
+  }
+  .project-tagbar button:hover{ transform:translateY(-2px); border-color:var(--border-strong); }
+  .project-tagbar button.active{ background:linear-gradient(120deg, rgba(94,234,212,.18), rgba(217,142,74,.15)); border-color:var(--border-strong); color:var(--ink); }
+  .project-tagbar button .count{ opacity:.6; margin-left:4px; }
+  .project-empty{
+    display:none; text-align:center; color:var(--ink-faint); font-family:var(--font-mono);
+    font-size:.9em; padding:40px 20px;
+  }
+  .project-empty.visible{ display:block; }
+  .stack-card.filtered-out{ display:none !important; }
+
+  /* =============================
+     SKILL RADAR CHART
+     ============================= */
+  .radar-wrap{
+    max-width:560px; margin:0 auto clamp(36px, 6vw, 56px); padding:32px; text-align:center;
+  }
+  .radar-wrap h3{ font-family:var(--font-display); font-size:1.1em; color:var(--ink); margin-bottom:4px; }
+  .radar-wrap .radar-sub{ font-family:var(--font-mono); font-size:.78em; color:var(--ink-faint); margin-bottom:18px; }
+  .radar-svg-holder{ width:100%; max-width:380px; margin:0 auto; }
+  .radar-svg-holder svg{ width:100%; height:auto; overflow:visible; }
+  .radar-grid-line{ stroke:var(--border); stroke-width:1; fill:none; }
+  .radar-axis-line{ stroke:var(--border); stroke-width:1; }
+  .radar-fill{
+    fill:rgba(94,234,212,.16); stroke:var(--signal); stroke-width:2; stroke-linejoin:round;
+    transform-origin:center; transform-box:fill-box;
+    transform:scale(0); opacity:0; transition:transform 1s cubic-bezier(.2,.8,.2,1), opacity .6s ease;
+  }
+  .radar-wrap.in-view .radar-fill{ transform:scale(1); opacity:1; }
+  .radar-point{
+    fill:var(--copper); opacity:0; transition:opacity .5s ease .6s;
+  }
+  .radar-wrap.in-view .radar-point{ opacity:1; }
+  .radar-label{ font-family:var(--font-mono); font-size:9px; fill:var(--ink-dim); }
+  .radar-legend{ display:flex; flex-wrap:wrap; gap:10px 16px; justify-content:center; margin-top:18px; }
+  .radar-legend .item{ display:flex; align-items:center; gap:7px; font-family:var(--font-mono); font-size:.74em; color:var(--ink-faint); }
+  .radar-legend .swatch{ width:9px; height:9px; border-radius:2px; background:var(--signal); }
 </style>
 </head>
 <body>
@@ -586,6 +752,26 @@
 </div>
 
 <canvas id="cursorTrail" aria-hidden="true"></canvas>
+
+<button id="terminalHint" type="button" aria-label="Open terminal easter egg">
+  <span class="dot"></span>
+  <span class="label-text">Press <kbd>`</kbd> for terminal</span>
+</button>
+
+<div id="terminalOverlay" role="dialog" aria-modal="true" aria-label="Interactive terminal">
+  <div class="terminal-window">
+    <div class="terminal-titlebar">
+      <span class="tb-dot red"></span><span class="tb-dot yellow"></span><span class="tb-dot green"></span>
+      <span class="label">guest@praveenkumar: ~</span>
+      <button class="tb-close" id="terminalClose" type="button" aria-label="Close terminal">esc ✕</button>
+    </div>
+    <div class="terminal-body" id="terminalBody"></div>
+    <div class="terminal-inputrow">
+      <span class="prompt">$</span>
+      <input id="terminalInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="type 'help' to get started">
+    </div>
+  </div>
+</div>
 
 <div class="bg-scene" aria-hidden="true">
   <canvas id="pixelSnowBg"></canvas>
@@ -696,6 +882,10 @@
     <a href="#achievements">Certifications</a>
     <a href="#publications">Publications</a>
     <a href="#beyond">Beyond</a>
+    <button id="themeToggle" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">
+      <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+    </button>
   </div>
 </nav>
 
@@ -808,9 +998,23 @@
       </div>
 
   
-      <div class="stack-wrap">
+      <div class="project-filters">
+        <div class="project-search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="projectSearch" placeholder="Search projects…" aria-label="Search projects">
+        </div>
+        <div class="project-tagbar" id="projectTagbar">
+          <button type="button" class="active" data-tag="all">All</button>
+          <button type="button" data-tag="ai-ml">AI / ML</button>
+          <button type="button" data-tag="embedded">Embedded</button>
+          <button type="button" data-tag="security">Security</button>
+          <button type="button" data-tag="web">Web</button>
+        </div>
+      </div>
 
-        <div class="stack-card">
+      <div class="stack-wrap" id="projectsStack">
+
+        <div class="stack-card" data-tags="ai-ml security" data-search="fingerprint based identification system cnn blood group gender fingerprint type python tensorflow computer vision">
           <div class="panel project-card tilt reveal">
             <h3>Fingerprint-Based Identification System</h3>
             <div class="date">November 2025</div>
@@ -822,7 +1026,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="ai-ml embedded" data-search="smart agricultural monitoring system deep learning plant disease detection raspberry pi twilio sms">
           <div class="panel project-card tilt reveal">
             <h3>Smart Agricultural Monitoring System</h3>
             <div class="date">April 2025 · IJERT Publication</div>
@@ -834,7 +1038,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="ai-ml security" data-search="cyber threat prediction system ddos malware detection deep learning">
           <div class="panel project-card tilt reveal">
             <h3>Cyber Threat Prediction System</h3>
             <div class="date">February 2025</div>
@@ -846,7 +1050,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="embedded ai-ml" data-search="desiltbot automated silt removal system robotic computer vision raspberry pi gps">
           <div class="panel project-card tilt reveal">
             <h3>DesiltBot – Automated Silt Removal System</h3>
             <div class="date">March 2024</div>
@@ -858,7 +1062,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="web" data-search="personal portfolio website html css javascript github pages responsive">
           <div class="panel project-card tilt reveal">
             <h3>Personal Portfolio Website</h3>
             <div class="date">March 2024</div>
@@ -870,7 +1074,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="web" data-search="library management system database crud python sql oop">
           <div class="panel project-card tilt reveal">
             <h3>Library Management System</h3>
             <div class="date">January 2024</div>
@@ -882,7 +1086,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="embedded" data-search="smart home automation system arduino bluetooth relay android">
           <div class="panel project-card tilt reveal">
             <h3>Smart Home Automation System</h3>
             <div class="date">March 2023</div>
@@ -894,7 +1098,7 @@
           </div>
         </div>
 
-        <div class="stack-card">
+        <div class="stack-card" data-tags="embedded" data-search="variable voltage regulator power supply analog electronics regulator ic">
           <div class="panel project-card tilt reveal">
             <h3>Variable Voltage Regulator (0–32V)</h3>
             <div class="date">February 2023</div>
@@ -907,6 +1111,7 @@
         </div>
 
       </div>
+      <p class="project-empty" id="projectEmpty">No projects match that search/filter. Try a different keyword or tag.</p>
     </div>
   </section>
 
@@ -916,6 +1121,15 @@
       <h2 class="reveal-text">Technical Skills</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
+      </div>
+
+      <div class="panel radar-wrap reveal" id="radarWrap">
+        <h3>Skill Proficiency Radar</h3>
+        <p class="radar-sub">// self-rated, out of 100</p>
+        <div class="radar-svg-holder">
+          <svg id="radarSvg" viewBox="0 0 300 300"></svg>
+        </div>
+        <div class="radar-legend" id="radarLegend"></div>
       </div>
 
       <div class="stack-wrap" id="skillsStack">
@@ -1963,6 +2177,377 @@
     btn.addEventListener('click', function(){
       window.scrollTo({ top:0, behavior: reduced ? 'auto' : 'smooth' });
     });
+  })();
+
+  // ============================= THEME SWITCHER =============================
+  // Toggles [data-theme] on <html> between the default dark circuit theme
+  // and a light variant. Preference is remembered in localStorage (this is
+  // a real hosted site file, not a sandboxed artifact, so persistence is
+  // safe here) and falls back to the OS-level color-scheme on first visit.
+  (function(){
+    var toggle = document.getElementById('themeToggle');
+    if(!toggle) return;
+    var root = document.documentElement;
+    var STORAGE_KEY = 'pg-portfolio-theme';
+
+    function applyTheme(theme){
+      if(theme === 'light'){ root.setAttribute('data-theme', 'light'); }
+      else { root.removeAttribute('data-theme'); }
+    }
+
+    var saved = null;
+    try{ saved = localStorage.getItem(STORAGE_KEY); } catch(e){ /* storage unavailable */ }
+
+    if(saved){
+      applyTheme(saved);
+    } else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches){
+      applyTheme('light');
+    }
+
+    toggle.addEventListener('click', function(){
+      var isLight = root.getAttribute('data-theme') === 'light';
+      var next = isLight ? 'dark' : 'light';
+      applyTheme(next);
+      try{ localStorage.setItem(STORAGE_KEY, next); } catch(e){ /* ignore */ }
+    });
+  })();
+
+  // ============================= TERMINAL EASTER EGG =============================
+  // A themed fake-shell overlay. Toggled with the backtick key (ignored while
+  // typing in a real input/textarea) or the floating hint button. Commands
+  // are a small hand-written table — no real shell execution, just resume
+  // content served back as terminal output.
+  (function(){
+    var hint = document.getElementById('terminalHint');
+    var overlay = document.getElementById('terminalOverlay');
+    var closeBtn = document.getElementById('terminalClose');
+    var body = document.getElementById('terminalBody');
+    var input = document.getElementById('terminalInput');
+    if(!hint || !overlay || !body || !input) return;
+
+    var history = [];
+    var historyIndex = -1;
+
+    function printLine(text, cls){
+      var line = document.createElement('div');
+      line.className = 'terminal-line' + (cls ? ' ' + cls : '');
+      line.textContent = text;
+      body.appendChild(line);
+      body.scrollTop = body.scrollHeight;
+    }
+    function printCmd(text){ printLine(text, 'cmd'); }
+    function printBlock(lines, cls){ lines.forEach(function(l){ printLine(l, cls); }); }
+
+    var BANNER = [
+      ' ____                                          _  __ ',
+      '|  _ \\ _ __ __ ___   _____  ___ _ __   /\\ /\\  | |/ /_ _',
+      '| |_) | \'__/ _` \\ \\ / / _ \\/ _ \\ \'_ \\ / / \\ \\ | \' // _` |',
+      '|  __/| | | (_| |\\ V /  __/  __/ | | / /   \\ \\| . \\ (_| |',
+      '|_|   |_|  \\__,_| \\_/ \\___|\\___|_| |_\\/     \\/|_|\\_\\__,_|'
+    ];
+
+    var COMMANDS = {
+      help: function(){
+        printBlock([
+          'available commands:',
+          '  whoami            – who is this site about',
+          '  skills --list     – core technical skills',
+          '  projects --list   – featured projects',
+          '  certs --list      – certification count & highlights',
+          '  contact --email   – how to reach Praveenkumar',
+          '  experience        – current role',
+          '  theme --toggle    – switch light/dark theme',
+          '  sudo make coffee  – ...try it',
+          '  clear             – clear the screen',
+          '  exit              – close this terminal'
+        ], 'out');
+      },
+      whoami: function(){
+        printBlock([
+          'praveenkumar_g — DevSecOps Engineer & ECE undergraduate.',
+          'Focused on cloud-native security, embedded systems, and AI/ML.',
+          'Currently a DevSecOps Engineer Intern at Baton-Ubixi Systems Pvt Ltd.'
+        ], 'out');
+      },
+      'skills --list': function(){
+        printBlock([
+          'languages   : Java, C, Python, Embedded C, SQL, JS',
+          'devops      : Kubernetes, Docker, Jenkins, AWS, Terraform, Ansible, ArgoCD',
+          'ml/ai       : TensorFlow, Keras, OpenCV, Scikit-learn, Pandas, NumPy',
+          'embedded    : Raspberry Pi, Arduino, Sensor Integration, Circuit Design',
+          'security    : IAM, SSL/TLS, Container Security, OWASP Top 10, K8s RBAC'
+        ], 'accent');
+      },
+      'projects --list': function(){
+        printBlock([
+          '1. Fingerprint-Based Identification System   (AI/ML, CNN)',
+          '2. Smart Agricultural Monitoring System        (AI/ML, IoT) — IJERT pub',
+          '3. Cyber Threat Prediction System               (AI/ML, Security)',
+          '4. DesiltBot – Automated Silt Removal System    (Embedded, CV)',
+          '5. Smart Home Automation System                 (Embedded)',
+          '6. Variable Voltage Regulator (0–32V)           (Embedded)',
+          '   ...scroll to #projects for the full list, or run: projects --open'
+        ], 'out');
+      },
+      'projects --open': function(){
+        printBlock(['jumping to the Projects section...'], 'out');
+        closeTerminal();
+        var el = document.querySelector('#projects');
+        if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+      },
+      'certs --list': function(){
+        printBlock([
+          '20+ certifications on file, including:',
+          '  - Deloitte (Forage) Cyber Job Simulation',
+          '  - Maven Silicon Verilog HDL (Hands-on)',
+          '  - TCS iON Career Edge – Young Professional',
+          '  - NPTEL Deep Learning',
+          'run: certs --open to view the full wall'
+        ], 'out');
+      },
+      'certs --open': function(){
+        printBlock(['jumping to Certifications...'], 'out');
+        closeTerminal();
+        var el = document.querySelector('#achievements');
+        if(el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+      },
+      'contact --email': function(){
+        printBlock(['gpraveenkumar2005@gmail.com', '(or run: contact --call / contact --linkedin)'], 'accent');
+      },
+      'contact --call': function(){ printBlock(['+91 96004 04942'], 'accent'); },
+      'contact --linkedin': function(){ printBlock(['linkedin.com/in/praveen4942'], 'accent'); },
+      experience: function(){
+        printBlock([
+          'DevSecOps Engineer Intern @ Baton-Ubixi Systems Pvt Ltd — March 2026 – Present',
+          'Secure CI/CD pipelines, infra automation, SDLC security integration.'
+        ], 'out');
+      },
+      'theme --toggle': function(){
+        var t = document.getElementById('themeToggle');
+        if(t) t.click();
+        printBlock(['theme switched.'], 'accent');
+      },
+      'sudo make coffee': function(){
+        printBlock(['[sudo] password for guest: ', 'make: *** No espresso machine detected. Have a ☕ emoji instead.'], 'warn');
+      },
+      clear: function(){ body.innerHTML = ''; },
+      exit: function(){ closeTerminal(); }
+    };
+
+    function runCommand(raw){
+      var cmd = raw.trim();
+      if(!cmd) return;
+      printCmd(cmd);
+      history.push(cmd); historyIndex = history.length;
+      var key = cmd.toLowerCase();
+      if(COMMANDS[key]){ COMMANDS[key](); return; }
+      // loose matching for bare commands like "skills" or "projects"
+      if(/^skills/.test(key)){ COMMANDS['skills --list'](); return; }
+      if(/^projects/.test(key)){ COMMANDS['projects --list'](); return; }
+      if(/^certs?/.test(key)){ COMMANDS['certs --list'](); return; }
+      if(/^contact/.test(key)){ COMMANDS['contact --email'](); return; }
+      printBlock(['command not found: ' + cmd + '  (try "help")'], 'warn');
+    }
+
+    function openTerminal(){
+      overlay.classList.add('open');
+      if(!body.dataset.booted){
+        printBlock(BANNER, 'ascii');
+        printBlock([
+          '',
+          'Welcome to praveenkumar-shell v1.0.0',
+          'Type "help" to see available commands.'
+        ], 'out');
+        body.dataset.booted = '1';
+      }
+      setTimeout(function(){ input.focus(); }, 30);
+    }
+    function closeTerminal(){
+      overlay.classList.remove('open');
+      input.blur();
+    }
+
+    hint.addEventListener('click', openTerminal);
+    closeBtn.addEventListener('click', closeTerminal);
+    overlay.addEventListener('click', function(e){ if(e.target === overlay) closeTerminal(); });
+
+    document.addEventListener('keydown', function(e){
+      var tag = (e.target && e.target.tagName) || '';
+      var typing = tag === 'INPUT' || tag === 'TEXTAREA' || (e.target && e.target.isContentEditable);
+
+      if(e.key === '`' && !typing){
+        e.preventDefault();
+        overlay.classList.contains('open') ? closeTerminal() : openTerminal();
+        return;
+      }
+      if(e.key === 'Escape' && overlay.classList.contains('open')){
+        closeTerminal();
+      }
+    });
+
+    input.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){
+        var val = input.value;
+        input.value = '';
+        runCommand(val);
+      } else if(e.key === 'ArrowUp'){
+        if(historyIndex > 0){ historyIndex--; input.value = history[historyIndex] || ''; }
+        e.preventDefault();
+      } else if(e.key === 'ArrowDown'){
+        if(historyIndex < history.length - 1){ historyIndex++; input.value = history[historyIndex] || ''; }
+        else { historyIndex = history.length; input.value = ''; }
+        e.preventDefault();
+      }
+    });
+  })();
+
+  // ============================= PROJECT FILTER / SEARCH =============================
+  // Combines a tag filter (single-select pill bar) with free-text search
+  // across each card's data-search string. Filtered-out cards get a class
+  // rather than being removed, then the existing scroll-stack init/update
+  // functions (defined earlier) are re-run so sticky offsets stay correct.
+  (function(){
+    var tagbar = document.getElementById('projectTagbar');
+    var searchInput = document.getElementById('projectSearch');
+    var stack = document.getElementById('projectsStack');
+    var emptyMsg = document.getElementById('projectEmpty');
+    if(!tagbar || !searchInput || !stack) return;
+
+    var activeTag = 'all';
+
+    function applyFilters(){
+      var query = searchInput.value.trim().toLowerCase();
+      var cards = stack.querySelectorAll('.stack-card');
+      var visibleCount = 0;
+
+      cards.forEach(function(card){
+        var tags = (card.getAttribute('data-tags') || '').split(/\s+/);
+        var searchText = card.getAttribute('data-search') || '';
+        var tagMatch = activeTag === 'all' || tags.indexOf(activeTag) !== -1;
+        var textMatch = !query || searchText.indexOf(query) !== -1;
+        var show = tagMatch && textMatch;
+        card.classList.toggle('filtered-out', !show);
+        if(show) visibleCount++;
+      });
+
+      if(emptyMsg) emptyMsg.classList.toggle('visible', visibleCount === 0);
+
+      // Re-run the generic scroll-stack layout (initStacks/updateStackCards
+      // are defined earlier in this file and operate on all .stack-wrap
+      // elements, filtering to visible cards automatically).
+      if(typeof initStacks === 'function') initStacks();
+      if(typeof updateStackCards === 'function') updateStackCards();
+    }
+
+    tagbar.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        tagbar.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeTag = btn.getAttribute('data-tag');
+        applyFilters();
+      });
+    });
+
+    var debounceTimer;
+    searchInput.addEventListener('input', function(){
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(applyFilters, 120);
+    });
+  })();
+
+  // ============================= SKILL RADAR CHART =============================
+  // Builds a hexagonal radar/spider chart from a small proficiency dataset,
+  // drawing the grid + axes once, then animating the filled polygon in via
+  // CSS transform (radar-wrap.in-view) once it scrolls into view.
+  (function(){
+    var svg = document.getElementById('radarSvg');
+    var wrap = document.getElementById('radarWrap');
+    var legendHolder = document.getElementById('radarLegend');
+    if(!svg || !wrap) return;
+
+    var DATA = [
+      { label:'Programming', value:88 },
+      { label:'DevOps/Cloud', value:85 },
+      { label:'AI / ML', value:80 },
+      { label:'Embedded', value:82 },
+      { label:'Security', value:78 },
+      { label:'Networking', value:74 }
+    ];
+
+    var cx = 150, cy = 150, maxR = 105;
+    var n = DATA.length;
+    var svgNS = 'http://www.w3.org/2000/svg';
+
+    function pointFor(index, valuePct){
+      var angle = (Math.PI * 2 * index) / n - Math.PI / 2;
+      var r = maxR * (valuePct / 100);
+      return { x: cx + Math.cos(angle) * r, y: cy + Math.sin(angle) * r };
+    }
+    function outerPointFor(index){
+      var angle = (Math.PI * 2 * index) / n - Math.PI / 2;
+      return { x: cx + Math.cos(angle) * maxR, y: cy + Math.sin(angle) * maxR };
+    }
+
+    function el(tag, attrs){
+      var e = document.createElementNS(svgNS, tag);
+      for(var k in attrs){ e.setAttribute(k, attrs[k]); }
+      return e;
+    }
+
+    // Grid rings (4 concentric hexagons at 25/50/75/100%)
+    [0.25, 0.5, 0.75, 1].forEach(function(frac){
+      var pts = [];
+      for(var i = 0; i < n; i++){
+        var angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+        pts.push((cx + Math.cos(angle) * maxR * frac) + ',' + (cy + Math.sin(angle) * maxR * frac));
+      }
+      svg.appendChild(el('polygon', { points: pts.join(' '), class:'radar-grid-line' }));
+    });
+
+    // Axis spokes + labels
+    for(var i = 0; i < n; i++){
+      var outer = outerPointFor(i);
+      svg.appendChild(el('line', { x1:cx, y1:cy, x2:outer.x, y2:outer.y, class:'radar-axis-line' }));
+
+      var labelR = maxR + 20;
+      var angle = (Math.PI * 2 * i) / n - Math.PI / 2;
+      var lx = cx + Math.cos(angle) * labelR;
+      var ly = cy + Math.sin(angle) * labelR;
+      var anchor = Math.abs(Math.cos(angle)) < 0.3 ? 'middle' : (Math.cos(angle) > 0 ? 'start' : 'end');
+      var text = el('text', { x:lx, y:ly + 4, class:'radar-label', 'text-anchor':anchor });
+      text.textContent = DATA[i].label;
+      svg.appendChild(text);
+    }
+
+    // Data polygon
+    var dataPts = [];
+    for(var j = 0; j < n; j++){
+      var p = pointFor(j, DATA[j].value);
+      dataPts.push(p.x + ',' + p.y);
+    }
+    svg.appendChild(el('polygon', { points: dataPts.join(' '), class:'radar-fill' }));
+
+    for(var k = 0; k < n; k++){
+      var pt = pointFor(k, DATA[k].value);
+      svg.appendChild(el('circle', { cx:pt.x, cy:pt.y, r:3.2, class:'radar-point' }));
+    }
+
+    // Legend
+    if(legendHolder){
+      DATA.forEach(function(d){
+        var item = document.createElement('span');
+        item.className = 'item';
+        item.innerHTML = '<span class="swatch"></span>' + d.label + ' — ' + d.value + '%';
+        legendHolder.appendChild(item);
+      });
+    }
+
+    var radarObserver = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){ wrap.classList.add('in-view'); radarObserver.unobserve(entry.target); }
+      });
+    }, { threshold:0.35 });
+    radarObserver.observe(wrap);
   })();
 </script>
 
