@@ -165,15 +165,34 @@
   @keyframes nodePulse{ 0%,100%{ opacity:.25; } 50%{ opacity:1; } }
 
   /* ============================= NAV ============================= */
-  nav{ position:sticky; top:0; z-index:100; background:rgba(7,11,10,.94); border-bottom:1px solid var(--border); }
-  nav .container{ display:flex; justify-content:center; gap:4px; padding:14px 20px; flex-wrap:wrap; }
-  nav a{
-    position:relative; text-decoration:none; font-family:var(--font-mono); font-size:.8em;
-    color:var(--ink-faint); padding:8px 13px; border-radius:6px; transition:color .25s ease;
-    letter-spacing:.02em;
+  nav{
+    position:fixed; left:50%; bottom:calc(14px + env(safe-area-inset-bottom)); z-index:600;
+    width:max-content; max-width:calc(100vw - 32px); transform:translateX(-50%);
+    border:1px solid var(--border-strong); border-radius:18px;
+    background:rgba(13,23,20,.86); backdrop-filter:blur(18px) saturate(150%);
+    box-shadow:0 18px 48px -20px rgba(0,0,0,.82), 0 0 28px -14px rgba(94,234,212,.45);
   }
-  nav a:hover{ color:var(--signal); background:rgba(94,234,212,.08); }
-  nav a.active{ color:var(--copper); }
+  nav .container{
+    display:flex; align-items:center; justify-content:flex-start; gap:4px;
+    width:max-content; max-width:100%; margin:0; padding:8px;
+    overflow-x:auto; scrollbar-width:none; overscroll-behavior-x:contain;
+  }
+  nav .container::-webkit-scrollbar{ display:none; }
+  nav a{
+    position:relative; display:inline-flex; flex:0 0 auto; align-items:center; gap:7px;
+    text-decoration:none; font-family:var(--font-mono); font-size:.75em;
+    color:var(--ink-faint); padding:10px 11px; border:1px solid transparent;
+    border-radius:11px; transition:color .25s ease, background .25s ease, border-color .25s ease, transform .25s ease;
+    letter-spacing:.01em; white-space:nowrap;
+  }
+  nav a:hover{ color:var(--signal); background:rgba(94,234,212,.08); transform:translateY(-2px); }
+  nav a.active{ color:var(--signal); background:linear-gradient(135deg, rgba(94,234,212,.15), rgba(217,142,74,.10)); border-color:var(--border); }
+  nav a.active::after{ content:''; position:absolute; left:50%; bottom:3px; width:4px; height:4px; border-radius:50%; background:var(--copper); transform:translateX(-50%); }
+  nav .nav-icon{ display:inline-flex; width:17px; height:17px; flex:0 0 17px; }
+  nav .nav-icon svg{ width:100%; height:100%; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+  nav #themeToggle{ width:38px; height:38px; margin:0 0 0 3px; border-radius:11px; }
+  html[data-theme="light"] nav{ background:rgba(243,248,246,.88); box-shadow:0 18px 48px -20px rgba(20,50,42,.34), 0 0 28px -14px rgba(15,156,140,.3); }
+  body{ padding-bottom:calc(88px + env(safe-area-inset-bottom)); }
 
   /* ============================= SECTIONS ============================= */
   section{ padding:clamp(48px, 8vw, 84px) 0; position:relative; }
@@ -245,6 +264,8 @@
   .project-card .date{ font-family:var(--font-mono); color:var(--signal); font-size:.8em; margin-bottom:16px; letter-spacing:.03em; }
   .project-card p{ color:var(--ink-dim); margin-bottom:12px; }
   .project-card strong{ color:var(--ink); }
+  .project-repo{ display:inline-flex; align-items:center; gap:6px; margin-top:18px; color:var(--signal); font-family:var(--font-mono); font-size:.82em; text-decoration:none; }
+  .project-repo:hover{ color:var(--copper); text-decoration:underline; }
   .tools{ display:flex; flex-wrap:wrap; gap:8px; margin-top:18px; }
   .tool-tag{ font-family:var(--font-mono); font-size:.74em; padding:5px 12px; border-radius:6px; background:rgba(94,234,212,.08); border:1px solid var(--border); color:var(--signal); }
 
@@ -425,6 +446,20 @@
 
   @media (max-width:768px){
     #backToTop{ right:16px; bottom:16px; width:46px; height:46px; }
+    #backToTop{ bottom:calc(82px + env(safe-area-inset-bottom)); }
+    #terminalHint{ bottom:calc(82px + env(safe-area-inset-bottom)); }
+    body{ padding-bottom:calc(88px + env(safe-area-inset-bottom)); }
+  }
+
+  @media (max-width:600px){
+    nav{ max-width:calc(100vw - 36px); border-radius:16px; }
+    nav .container{ gap:2px; padding:6px; }
+    nav a{ width:38px; height:40px; justify-content:center; gap:0; padding:0; border-radius:10px; }
+    nav .nav-label{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
+    nav .nav-icon{ width:18px; height:18px; flex-basis:18px; }
+    nav a.active::after{ bottom:2px; }
+    nav #themeToggle{ width:36px; height:38px; margin-left:2px; }
+    body{ padding-bottom:calc(82px + env(safe-area-inset-bottom)); }
   }
 
   /* =============================
@@ -872,16 +907,32 @@
   <div class="gradual-blur" aria-hidden="true"><span></span><span></span><span></span></div>
 </header>
 
-<nav>
+<nav aria-label="Primary navigation">
   <div class="container">
-    <a href="#about">About</a>
-    <a href="#education">Education</a>
-    <a href="#experience">Experience</a>
-    <a href="#projects">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#achievements">Certifications</a>
-    <a href="#publications">Publications</a>
-    <a href="#beyond">Beyond</a>
+    <a href="#about" aria-label="About">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.2 3.2-5 7-5s6.3 1.8 7 5"/></svg></span><span class="nav-label">About</span>
+    </a>
+    <a href="#education" aria-label="Education">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5.5h6a3 3 0 0 1 3 3v11a3 3 0 0 0-3-3H3z"/><path d="M21 5.5h-6a3 3 0 0 0-3 3v11a3 3 0 0 1 3-3h6z"/></svg></span><span class="nav-label">Education</span>
+    </a>
+    <a href="#experience" aria-label="Experience">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 12h18m-11 0v2h4v-2"/></svg></span><span class="nav-label">Experience</span>
+    </a>
+    <a href="#projects" aria-label="Projects">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m8 5-6 7 6 7M16 5l6 7-6 7m-3-16-2 18"/></svg></span><span class="nav-label">Projects</span>
+    </a>
+    <a href="#skills" aria-label="Skills">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="18" r="2"/></svg></span><span class="nav-label">Skills</span>
+    </a>
+    <a href="#achievements" aria-label="Certifications">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v8M15 3v5h5M5 8H3v13h12v-2"/><path d="M10 11v6l3-2 3 2v-6M10 11h6"/></svg></span><span class="nav-label">Certifications</span>
+    </a>
+    <a href="#publications" aria-label="Publications">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM15 3v5h5M8 12h8m-8 4h8"/></svg></span><span class="nav-label">Publications</span>
+    </a>
+    <a href="#beyond" aria-label="Beyond">
+      <span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 1.7 5.3L19 10l-5.3 1.7L12 17l-1.7-5.3L5 10l5.3-1.7zM19 15l1 3 3 1-3 1-1 3-1-3-3-1 3-1z"/></svg></span><span class="nav-label">Beyond</span>
+    </a>
     <button id="themeToggle" type="button" aria-label="Toggle light and dark theme" title="Toggle theme">
       <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
@@ -992,7 +1043,7 @@
   <section id="projects">
     <div class="container">
       <span class="eyebrow">Projects</span>
-      <h2 class="reveal-text">Academic and Personal Projects (8)</h2>
+      <h2 class="reveal-text">Academic and Personal Projects (10)</h2>
       <div class="section-rule">
         <svg viewBox="0 0 120 10"><path class="track" d="M0 5 H120"/><path class="pulse" d="M0 5 H120"/><circle class="node" cx="60" cy="5" r="3"/></svg>
       </div>
@@ -1014,15 +1065,41 @@
 
       <div class="stack-wrap" id="projectsStack">
 
-        <div class="stack-card" data-tags="ai-ml security" data-search="fingerprint based identification system cnn blood group gender fingerprint type python tensorflow computer vision">
+        <div class="stack-card" data-tags="ai-ml security" data-search="multi-trait fingerprint analysis identification system cnn blood group gender finger type python tensorflow computer vision">
           <div class="panel project-card tilt reveal">
-            <h3>Fingerprint-Based Identification System</h3>
-            <div class="date">November 2025</div>
-            <p>Developed a customized CNN-based model to identify <strong>blood group, gender, and fingerprint type</strong> from fingerprint images.</p>
-            <p><strong>Approach:</strong> Image preprocessing, feature extraction, CNN classification.</p>
+            <h3>Multi-trait Fingerprint Analysis</h3>
+            <div class="date">October 2025</div>
+            <p>Built a non-invasive deep-learning framework to predict <strong>blood group, gender, and finger type</strong> from fingerprint images using custom CNNs.</p>
+            <p><strong>Interface:</strong> Streamlit application for real-time prediction from an uploaded image.</p>
             <div class="tools">
               <span class="tool-tag">Python</span><span class="tool-tag">TensorFlow</span><span class="tool-tag">CNN</span><span class="tool-tag">Computer Vision</span>
             </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/Multi-trait_Fingerprint_Analysis" target="_blank" rel="noopener noreferrer">View repository ↗</a>
+          </div>
+        </div>
+
+        <div class="stack-card" data-tags="web" data-search="orvion personal workspace application plans records tasks notes calendar finance analytics">
+          <div class="panel project-card tilt reveal">
+            <h3>Orvion</h3>
+            <div class="date">October 2026</div>
+            <p>Developed a personal workspace for everyday plans, records, and activity, with a dashboard spanning tasks, notes, calendar, finance, timeline, analytics, and settings.</p>
+            <div class="tools">
+              <span class="tool-tag">Web Application</span><span class="tool-tag">Personal Workspace</span>
+            </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/Orvion" target="_blank" rel="noopener noreferrer">View repository ↗</a>
+          </div>
+        </div>
+
+        <div class="stack-card" data-tags="ai-ml" data-search="rice grain quality detection computer vision yolov8 cnns streamlit varieties defects grading">
+          <div class="panel project-card tilt reveal">
+            <h3>Rice Grain Quality Detection</h3>
+            <div class="date">January 2026</div>
+            <p>Built an automated system to detect rice grains, classify varieties and defects, and assign quality grades based on the percentage of defective grains.</p>
+            <p><strong>Approach:</strong> YOLOv8 object detection, custom CNNs, and a Streamlit application for bulk-image assessment.</p>
+            <div class="tools">
+              <span class="tool-tag">Python</span><span class="tool-tag">YOLOv8</span><span class="tool-tag">CNN</span><span class="tool-tag">Streamlit</span>
+            </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/Rice_grain_quality_detection" target="_blank" rel="noopener noreferrer">View repository ↗</a>
           </div>
         </div>
 
@@ -1035,6 +1112,7 @@
             <div class="tools">
               <span class="tool-tag">Raspberry Pi 4</span><span class="tool-tag">Python</span><span class="tool-tag">TensorFlow</span><span class="tool-tag">OpenCV</span><span class="tool-tag">Twilio API</span>
             </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/AgriSenseAI" target="_blank" rel="noopener noreferrer">View repository ↗</a>
           </div>
         </div>
 
@@ -1047,6 +1125,7 @@
             <div class="tools">
               <span class="tool-tag">Python</span><span class="tool-tag">TensorFlow</span><span class="tool-tag">Keras</span><span class="tool-tag">Scikit-learn</span><span class="tool-tag">Pandas</span><span class="tool-tag">NumPy</span>
             </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/Cyber-Threat-Prediction" target="_blank" rel="noopener noreferrer">View repository ↗</a>
           </div>
         </div>
 
@@ -1059,6 +1138,7 @@
             <div class="tools">
               <span class="tool-tag">Raspberry Pi</span><span class="tool-tag">Python</span><span class="tool-tag">OpenCV</span><span class="tool-tag">Load Cell</span><span class="tool-tag">GPS Module</span><span class="tool-tag">Cloud Integration</span>
             </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/DesiltBot" target="_blank" rel="noopener noreferrer">View repository ↗</a>
           </div>
         </div>
 
@@ -1095,6 +1175,7 @@
             <div class="tools">
               <span class="tool-tag">Arduino UNO</span><span class="tool-tag">Embedded C</span><span class="tool-tag">Bluetooth HC-05</span><span class="tool-tag">Relay Module</span><span class="tool-tag">Android App</span>
             </div>
+            <a class="project-repo" href="https://github.com/praveen-4942/Bluetooth-controlled-Home-Automation" target="_blank" rel="noopener noreferrer">View repository ↗</a>
           </div>
         </div>
 
@@ -1670,6 +1751,20 @@
           <div class="panel skill-category tilt reveal">
             <h3>Creative Works</h3>
             <p>Pencil arts, Pixel arts, Handmade crafts, games and puzzles</p>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="panel skill-category tilt reveal">
+            <h3>Coding Profile</h3>
+            <p><a href="https://www.geeksforgeeks.org/profile/gpraveenkp4ut" target="_blank" rel="noopener noreferrer">GeeksforGeeks profile ↗</a></p>
+            <p>Solved 154 problems across Basic, Easy, and Medium difficulty levels. Coding score: 292 · Institute rank: 256.</p>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="panel skill-category tilt reveal">
+            <h3>Open-Source Contribution</h3>
+            <p><a href="https://github.com/olboyarshinova/a11y-shiftleft-cli" target="_blank" rel="noopener noreferrer">a11y-shiftleft-cli ↗</a></p>
+            <p>Added an expected-output section to the demo README to help new contributors understand the expected results. <a href="https://github.com/olboyarshinova/a11y-shiftleft-cli/pull/28" target="_blank" rel="noopener noreferrer">PR #28 ↗</a></p>
           </div>
         </div>
       </div>
